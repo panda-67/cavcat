@@ -33,12 +33,12 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', function () {
-    $products = Product::orderBy("created_at", "desc")->paginate(10);
+Route::get('/dashboard', function () {    
     return Inertia::render('Dashboard', [
         "title" => "Dashboard",
-        "categories" => Category::all()
-    ], compact('products'));
+        "categories" => Category::all(),
+        "products" => Product::with('category')->paginate(10)
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -24,12 +26,13 @@ class ProductController extends Controller
         } 
 
         $products = Product::with('category')->latest()->filter(request(['search', 'category']))->paginate(12);        
-
-        return view('product.produk', [
+        
+        return Inertia::render('Product/Produk', [
             "title" => "Products",
             "categoryName" =>$namecategory,
             "categories" => Category::latest()->get(),
-        ], compact('products'));
+            "products" => $products
+        ]);
     }
 
     /**
@@ -39,7 +42,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create', [
+        return Inertia::render('Product/Create', [
             "title" => "Tambah",
             "categories" => Category::all()
         ]);
@@ -82,7 +85,7 @@ class ProductController extends Controller
         Product::create($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Produk berhasil ditambahkan.');
+            ->with('message', 'Produk berhasil ditambahkan.');
     }
 
     /**
@@ -92,10 +95,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product, $slug)
-    {
-        //
-        $stock = Product::where('slug', $slug)->first();
-        return view('product.show', ["title" => "Detail"], compact('stock'));
+    {        
+        return Inertia::render('Product/Show', [
+            "title" => "Detail",
+            "stock" => Product::with('category')->where('slug', $slug)->first(),
+            "breads" =>Breadcrumbs::render('stock', Product::with('category')->where('slug', $slug)->first())
+        ]);
     }
 
     /**
@@ -106,7 +111,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('product.edit', [
+        return Inertia::render('Product/Edit', [
             "title" => "Edit",
             "categories" => Category::all()
         ],  compact('product'));
@@ -156,7 +161,7 @@ class ProductController extends Controller
         )->update($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Produk berhasil diubah.');
+            ->with('message', 'Produk berhasil diubah.');
     }
 
     /**

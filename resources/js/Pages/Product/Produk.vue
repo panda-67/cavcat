@@ -10,6 +10,7 @@ defineProps({
   title: String,
   products: Object,
   categories: Object,
+  categoryName: String,
 });
 
 let form = useForm({
@@ -35,100 +36,85 @@ const formatter = new Intl.NumberFormat("id-ID", {
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ title }}
-      </h2>
-    </template>
+      <div
+        class="
+          flex
+          gap-3
+          justify-start
+          font-semibold
+          text-lg
+          bg-white
+          text-gray-800
+          leading-tight
+          w-full
+          px-4
+          sm:px-6
+          lg:px-12
+          py-2
+        "
+      >
+        <div class="dropdown dropdown-start pb-1 ml-4">
+          <div tabindex="0" class="px-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block w-5 stroke-current cursor-pointer"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </div>
+          <ul
+            tabindex="0"
+            class="
+              dropdown-content
+              text-sm
+              font-normal
+              shadow-md
+              px-3
+              pt-4
+              bg-base-100
+              rounded-md
+              w-max
+            "
+          >
+            <p class="font-semibold mb-2 border-b border-gray-700">Kategori</p>
 
-    <div class="py-4 mx-10">
-      <div class="max-w-7xl mx-auto">
-        <div
-          class="
-            flex flex-col
-            md:flex-row
-            justify-between
-            items-center
-            p-4
-            bg-white
-            overflow-hidden
-            shadow-sm
-            sm:rounded-lg
-          "
-        >
-          <div class="px-3">
-            <strong class="capitalize">{{ $page.props.auth.user.name }}</strong>
-            you're logged in!
-          </div>
-          <div class="flex flex-col md:flex-row gap-2">
-            <div>
-              <label
-                for="kategori"
-                class="btn btn-xs md:btn-sm btn-outline capitalize modal-button"
-                >Tambah Kategori</label
-              >
-              <input type="checkbox" id="kategori" class="modal-toggle" />
-              <div class="modal">
-                <div class="modal-box">
-                  <div class="form-control mt-2">
-                    <form @submit.prevent="submit">
-                      <div class="flex justify-center gap-2 mb-4">
-                        <input
-                          v-model="form.name"
-                          type="text"
-                          name="name"
-                          id="name"
-                          placeholder="Nama Kategori"
-                          class="input input-sm input-accent"
-                        />
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-info capitalize"
-                        >
-                          Tambah
-                        </button>
-                        <label for="kategori" class="btn btn-sm capitalize"
-                          >Tutup</label
-                        >
-                      </div>
-                      <div class="flex justify-center">
-                        <div
-                          v-if="$page.props.flash.message"
-                          class="alert text-accent -mt-2 alert-sm w-max"
-                        >
-                          {{ $page.props.flash.message }}
-                        </div>
-                        <div
-                          v-if="$page.props.errors.name"
-                          class="text-sm text-red-700 pl-2"
-                        >
-                          {{ $page.props.errors.name }}
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+            <Link
+              v-for="category in categories"
+              :key="category.id"
+              :href="route('category', category.slug)"
+              as="button"
+              type="button"
+            >
+              <li>{{ categoryname }}</li>
+            </Link>
+            <li class="mt-1 -mx-3 py-1 px-3 rounded-md bg-gray-800 text-white">
+              <Link :href="route('produk')"> All Product </Link>
+            </li>
+          </ul>
+        </div>
+        <div class="flex items-center">
+          @if ($categoryName)
+          <div class="font-semibold flex gap-2 ml-3">
+            <div class="ml-1">
+              <p class="text-2xs font-extralight -mb-1.5 -ml-3">Kategori</p>
+              <p class="text-sm md:text-lg">{{ $categoryName }}</p>
             </div>
-            <Link
-              :href="route('galeries.create')"
-              as="button"
-              type="button"
-              class="btn btn-xs md:btn-sm btn-outline capitalize"
-            >
-              Tambah Galeri
-            </Link>
-            <Link
-              :href="route('products.create')"
-              as="button"
-              type="button"
-              class="btn btn-xs md:btn-sm btn-outline capitalize"
-            >
-              Tambah Produk
-            </Link>
           </div>
+          @else
+          <div class="">
+            <p class="text-sm md:text-lg font-semibold">Produk</p>
+          </div>
+          @endif
         </div>
       </div>
-    </div>
+    </template>
 
     <div class="mt-4">
       <div class="mx-6 px-4 flex flex-col gap-2">

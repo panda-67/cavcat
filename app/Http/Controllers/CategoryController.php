@@ -23,6 +23,6 @@ class CategoryController extends Controller
             'name' => 'required'
         ]);
         Category::create($data);
-        return redirect()->route('dashboard')->with('success', "Category $request->name add successfully!");
+        return redirect()->route('dashboard')->with('message', "Category $request->name add successfully!");
     }
 }

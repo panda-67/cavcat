@@ -18,7 +18,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'category_id' => rand(1,3),
+            'category_id' => 1,
             'merk' => 'Rids',
             'title' => $this->faker->sentence(),
             'slug' => Str::random(10),
