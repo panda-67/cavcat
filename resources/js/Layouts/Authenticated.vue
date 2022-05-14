@@ -34,6 +34,24 @@ const showingNavigationDropdown = ref(false);
                 >
                   Dashboard
                 </BreezeNavLink>
+                <BreezeNavLink
+                  :href="route('produk')"
+                  :active="route().current('produk')"
+                >
+                  Produk
+                </BreezeNavLink>
+                <BreezeNavLink
+                  :href="route('categories')"
+                  :active="route().current('categories')"
+                >
+                  Kategori
+                </BreezeNavLink>
+                <BreezeNavLink
+                  :href="route('galery')"
+                  :active="route().current('galery')"
+                >
+                  Galeri
+                </BreezeNavLink>
               </div>
             </div>
 
@@ -169,6 +187,24 @@ const showingNavigationDropdown = ref(false);
               :active="route().current('dashboard')"
             >
               Dashboard
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('produk')"
+              :active="route().current('produk')"
+            >
+              Produk
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('categories')"
+              :active="route().current('categories')"
+            >
+              Kategori
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('galery')"
+              :active="route().current('galery')"
+            >
+              Galeri
             </BreezeResponsiveNavLink>
           </div>
 

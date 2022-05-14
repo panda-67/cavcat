@@ -62,14 +62,14 @@ class ProductController extends Controller
             'title' => 'required',
             'category_id' => 'required',
             'merk' => 'bail|required|string',
-            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            // 'display' => 'image|mimes:jpg,jpeg,png|max:2048',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [
             'title' => 'judul',
             'category_id' => 'kategori',
             'merk' => 'merek',
-            'display' => 'picture',
+            'display' => 'gambar',
             'description' => 'deskripsi',
             'price' => 'harga'
         ]);
@@ -99,7 +99,7 @@ class ProductController extends Controller
         return Inertia::render('Product/Show', [
             "title" => "Detail",
             "stock" => Product::with('category')->where('slug', $slug)->first(),
-            "breads" =>Breadcrumbs::render('stock', Product::with('category')->where('slug', $slug)->first())
+            "breads" => Breadcrumbs::render('stock', Product::with('category')->where('slug', $slug)->first())
         ]);
     }
 
@@ -113,8 +113,9 @@ class ProductController extends Controller
     {
         return Inertia::render('Product/Edit', [
             "title" => "Edit",
-            "categories" => Category::all()
-        ],  compact('product'));
+            "categories" => Category::all(),
+            "product" => $product,
+        ]);
     }
 
     /**
@@ -130,7 +131,7 @@ class ProductController extends Controller
             'title' => 'required',
             'category_id' => 'required',
             'merk' => 'required',
-            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            // 'display' => 'image|mimes:jpg,jpeg,png|max:2048',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [

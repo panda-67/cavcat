@@ -37,7 +37,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         "title" => "Dashboard",
         "categories" => Category::all(),
-        "products" => Product::with('category')->paginate(10)
+        "products" => Product::with('category')->latest()->paginate(10)
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

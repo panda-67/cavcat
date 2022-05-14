@@ -130,6 +130,56 @@ const formatter = new Intl.NumberFormat("id-ID", {
       </div>
     </div>
 
+    <div
+      v-if="$page.props.flash.message"
+      class="
+        flex
+        justify-start
+        items-center
+        bg-green-200
+        py-2
+        px-6
+        mt-3
+        rounded
+        border-b-2 border-green-300
+        md:max-w-md
+        mx-auto
+      "
+    >
+      <div
+        class="
+          alert-icon
+          flex
+          items-center
+          bg-green-100
+          border-2 border-green-500
+          justify-center
+          h-10
+          w-10
+          flex-shrink-0
+          rounded-full
+        "
+      >
+        <span class="text-green-500">
+          <svg fill="currentColor" viewBox="0 0 20 20" class="h-6 w-6">
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </span>
+      </div>
+      <div class="alert-content font-poppins ml-4 flex flex-col">
+        <div class="alert-title font-medium md:text-lg text-green-800">
+          Success
+        </div>
+        <div class="alert-description text-sm text-green-600">
+          {{ $page.props.flash.message }}
+        </div>
+      </div>
+    </div>
+
     <div class="mt-4">
       <div class="mx-6 px-4 flex flex-col gap-2">
         <div
@@ -148,7 +198,24 @@ const formatter = new Intl.NumberFormat("id-ID", {
             items-center
           "
         >
-          <div class="py-3 font-roboto w-full px-6">
+          <div class="w-36 ml-4">
+            <Link :href="route('products.show', stock.slug)">
+              <div
+                v-if="stock.display"
+                class="aspect-w-10 aspect-h-8 rounded-lg bg-center bg-cover"
+                style="background-image: url('{{ asset('storage/' . stock.display) }}'); background-blend-mode: multiply"
+              ></div>
+              <div
+                v-else
+                class="aspect-w-10 aspect-h-8 rounded-lg bg-center bg-cover"
+                style="
+                  background-image: url('https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg');
+                  background-blend-mode: multiply;
+                "
+              ></div>
+            </Link>
+          </div>
+          <div class="py-3 font-roboto w-full px-4">
             <div class="flex flex-col mb-2">
               <div
                 class="
@@ -219,7 +286,7 @@ const formatter = new Intl.NumberFormat("id-ID", {
               </div>
               <div class="flex gap-2 items-center text-gray-500">
                 <Link
-                  :href="route('products.edit', stock)"
+                  :href="route('products.edit', stock.id)"
                   as="button"
                   type="button"
                 >
