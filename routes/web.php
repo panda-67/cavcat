@@ -31,7 +31,7 @@ Route::get('/', function () {
         "product" => $product,
         "categories" => Category::all()
     ]);
-})->name('home');
+})->name('home')->breadcrumb('Beranda');
 
 Route::get('/dashboard', function () {    
     return Inertia::render('Dashboard', [
@@ -43,13 +43,17 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('products', ProductController::class)->except([
-    'index', 'show'
-])->middleware(['auth']);
+Route::resource('products', ProductController::class)
+    ->except(['index', 'show'])
+    ->middleware(['auth']);
 
-Route::get('/products', [ProductController::class, 'index'])->name('produk');
+Route::get('/products', [ProductController::class, 'index'])
+    ->name('produk')
+    ->breadcrumb('Produk', 'home');
 
-Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{slug}', [ProductController::class, 'show'])
+    ->name('products.show')
+    ->breadcrumb('', 'produk');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 

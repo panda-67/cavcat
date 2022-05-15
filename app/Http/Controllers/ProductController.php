@@ -96,10 +96,10 @@ class ProductController extends Controller
      */
     public function show(Product $product, $slug)
     {        
+        $stock = $product->with('category')->where('slug', $slug)->first();
         return Inertia::render('Product/Show', [
             "title" => "Detail",
-            "stock" => Product::with('category')->where('slug', $slug)->first(),
-            "breads" => Breadcrumbs::render('stock', Product::with('category')->where('slug', $slug)->first())
+            "stock" => $stock,
         ]);
     }
 

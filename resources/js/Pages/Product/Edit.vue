@@ -23,11 +23,16 @@ defineProps({
 </script>
 
 <template>
-  <Head title="Ubah" />
+  <Head>
+   <title>{{ Inertia.page.props.product.title }}</title>
+  </Head>
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl leading-tight">Ubah Produk</h2>
+      <h2 class="font-semibold text-xl leading-tight">
+        <Link :href="route('dashboard')"> Dashboard </Link>
+        / <span class="text-gray-500">{{ Inertia.page.props.product.title }} / Edit</span>
+      </h2>
     </template>
 
     <div class="py-12">

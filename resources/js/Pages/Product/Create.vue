@@ -23,11 +23,16 @@ defineProps({
 </script>
 
 <template>
-  <Head title="Tambah" />
+  <Head>
+    <title>Tambah</title>
+  </Head>
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl leading-tight">Tambah Produk</h2>
+      <h2 class="font-semibold text-xl leading-tight">
+        <Link :href="route('dashboard')"> Dashboard </Link>
+        / <span class="text-gray-500">Tambah Produk</span>
+      </h2>
     </template>
 
     <div class="py-12">
@@ -134,7 +139,10 @@ defineProps({
                 </div>
 
                 <div class="space-x-2">
-                  <button type="submit" class="btn btn-sm btn-accent text-white w-max">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-accent text-white w-max"
+                  >
                     Simpan
                   </button>
                   <Link

@@ -4,10 +4,10 @@ import RemoveButton from "@/Components/RemoveButton.vue";
 import BreezeNavLink from "@/Components/NavLink.vue";
 import { Inertia } from "@inertiajs/inertia";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
 
 defineProps({
   stock: Object,
-  breads: Array,
 });
 
 const formatter = new Intl.NumberFormat("id-ID", {
@@ -15,22 +15,45 @@ const formatter = new Intl.NumberFormat("id-ID", {
   currency: "IDR",
   minimumFractionDigits: 2,
 });
+
+const insertBetween = (items, insertion) => {
+  return items.flatMap((value, index, array) =>
+    array.length - 1 !== index ? [value, insertion] : value
+  );
+};
+
+const breadcrumbs = computed(() =>
+  insertBetween(Inertia.page.props.breadcrumbs || [], "/")
+);
 </script>
 
 <template>
-  <Head title="Show" />
+  <Head>
+    <title>{{ stock.title }}</title>
+  </Head>
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl leading-tight">
-        {{ stock.title }}
+      <h2 class="font-semibold text-lg leading-tight">
+        <nav class="flex" v-if="breadcrumbs">
+          <div class="ml-1" v-for="page in breadcrumbs" :key="page.id">
+            <span v-if="page === '/'">/</span>
+            <Link
+              v-else
+              :href="page.url"
+              :class="{ 'text-gray-300': page.current }"
+              >{{ page.title }}
+            </Link>
+          </div>
+          <div class="text-gray-500">{{ stock.title }}</div>
+        </nav>
       </h2>
     </template>
 
     <div
       class="
         flex flex-col
-        gap-6
+        gap-5
         md:gap-2
         lg:grid lg:grid-cols-3
         mx-10
