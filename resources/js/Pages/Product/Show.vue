@@ -1,30 +1,39 @@
 <script setup>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import RemoveButton from "@/Components/RemoveButton.vue";
-import BreezeNavLink from "@/Components/NavLink.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { computed } from "vue";
+  import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import RemoveButton from "@/Components/RemoveButton.vue";
+  import BreezeNavLink from "@/Components/NavLink.vue";
+  import { Inertia } from "@inertiajs/inertia";
+  import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import { computed } from "vue";
 
-defineProps({
-  stock: Object,
-});
+  defineProps({
+    stock: Object,
+  });
 
-const formatter = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  minimumFractionDigits: 2,
-});
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 2,
+  });
 
-const insertBetween = (items, insertion) => {
-  return items.flatMap((value, index, array) =>
-    array.length - 1 !== index ? [value, insertion] : value
+  const insertBetween = (items, insertion) => {
+    return items.flatMap((value, index, array) =>
+      array.length - 1 !== index ? [value, insertion] : value
+    );
+  };
+
+  const breadcrumbs = computed(() =>
+    insertBetween(Inertia.page.props.breadcrumbs || [], "/")
   );
-};
-
-const breadcrumbs = computed(() =>
-  insertBetween(Inertia.page.props.breadcrumbs || [], "/")
-);
+</script>
+<script>
+  export default {
+    methods: {
+      showImage() {
+        return "/storage/";
+      },
+    },
+  };
 </script>
 
 <template>
@@ -34,18 +43,27 @@ const breadcrumbs = computed(() =>
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-lg leading-tight">
+      <h2 class="font-thin text-base leading-tight">
         <nav class="flex" v-if="breadcrumbs">
           <div class="ml-1" v-for="page in breadcrumbs" :key="page.id">
             <span v-if="page === '/'">/</span>
             <Link
               v-else
               :href="page.url"
+              class="hover:text-blue-500"
               :class="{ 'text-gray-300': page.current }"
               >{{ page.title }}
             </Link>
           </div>
-          <div class="text-gray-500">{{ stock.title }}</div>
+          <Link
+            type="button"
+            as="button"
+            class="hover:text-blue-500"
+            :href="route('category', stock.category.slug)"
+          >
+            {{ stock.category.name }}
+          </Link>
+          <div class="text-gray-500">&nbsp;/ {{ stock.title }}</div>
         </nav>
       </h2>
     </template>
@@ -61,37 +79,19 @@ const breadcrumbs = computed(() =>
         lg:my-8
       "
     >
-      <div class="flex w-full col-span-1 aspect-w-10 aspect-h-8">
-        <div
-          v-if="stock.display"
-          class="
-            lg:w-80 lg:h-64 lg:ml-4
-            xl:ml-12
-            rounded-lg
-            bg-center bg-gray-300 bg-cover bg-current bg-opacity-40
-          "
-          style="background-image: url('{{ asset('storage/' . stock.display) }}'); background-blend-mode: multiply"
-        >
-          <div class=""></div>
+      <div class="flex justify-center w-full col-span-1">
+        <div v-if="stock.display">
+          <img
+            :src="showImage() + stock.display"
+            class="rounded-lg object-fill w-80 h-56"
+          />
         </div>
-
-        <div
-          v-else
-          class="
-            lg:w-80 lg:h-64 lg:ml-4
-            xl:ml-12
-            rounded-lg
-            bg-center bg-transparent
-            from-slate-100
-            to-gray-900
-            bg-cover bg-opacity-40
-          "
-          style="
-            background-image: url('https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg');
-            background-blend-mode: multiply;
-          "
-        >
-          <div class=""></div>
+        <div v-else>
+          <img
+            class="rounded-lg object-fill w-80 h-56"
+            src="https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg"
+            alt=""
+          />
         </div>
       </div>
       <div
@@ -130,23 +130,16 @@ const breadcrumbs = computed(() =>
                 sm:text-lg
                 font-normal font-sans
                 text-gray-700
-                capitalize
               "
             >
               {{ stock.title }}
             </div>
-            <div class="text-xs font-thin mt-1">
+            <!-- <div class="text-xs font-thin mt-1">
               <h2>
                 Dalam
-                <strong
-                  ><a
-                    class="hover:text-blue-500"
-                    href="{{ route('category', stock.category.slug) }}"
-                    >{{ stock.category.name }}</a
-                  ></strong
-                >
+                
               </h2>
-            </div>
+            </div> -->
           </div>
           <div
             class="

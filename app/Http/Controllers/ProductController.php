@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use Diglactic\Breadcrumbs\Breadcrumbs;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
@@ -62,7 +62,7 @@ class ProductController extends Controller
             'title' => 'required',
             'category_id' => 'required',
             'merk' => 'bail|required|string',
-            // 'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [
@@ -78,9 +78,10 @@ class ProductController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
-                'gambar', $filename
+                'gambar', $filename, 'public'
             );
         }
+        $data['title'] = Str::title($request->get('title'));
         // return $data;
         Product::create($data);
 
@@ -131,7 +132,7 @@ class ProductController extends Controller
             'title' => 'required',
             'category_id' => 'required',
             'merk' => 'required',
-            // 'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [
@@ -154,7 +155,7 @@ class ProductController extends Controller
                 $filename
             );
         }
-
+        $data['title'] = Str::title($request->get('title'));
         // return $request;
         Product::where(
             'id',
@@ -174,7 +175,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->display) {
-            Storage::delete($product->display);
+            Storage::disk('public')->delete($product->display);
         }
 
         Product::destroy($product->id);

@@ -1,26 +1,39 @@
 <script setup>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { reactive } from "vue";
+  import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import { Inertia } from "@inertiajs/inertia";
+  import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import { reactive } from "vue";
 
-let form = useForm({
-  title: null,
-  category_id: null,
-  merk: null,
-  description: null,
-  price: null,
-  display: null,
-});
+  let form = useForm({
+    title: null,
+    category_id: null,
+    merk: null,
+    description: null,
+    price: null,
+    display: null,
+  });
 
-let submit = () => {
-  Inertia.post(route("products.store"), form);
-};
+  let submit = () => {
+    Inertia.post(route("products.store"), form, {
+      forceFormData: true,
+    });
+  };
 
-defineProps({
-  categories: Object,
-});
+  defineProps({
+    categories: Object,
+  });
 </script>
+<script>
+  export default {
+    methods: {
+      previewImage(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
+    },
+  };
+</script>
+
 
 <template>
   <Head>
@@ -123,14 +136,22 @@ defineProps({
                   {{ $page.props.errors.price }}
                 </div>
 
-                <label for="name">Gambar</label>
+                <label for="display">Gambar</label>
                 <input
-                  v-model="form.display"
-                  type="text"
-                  name="name"
-                  id="name"
+                  type="file"
+                  @input="form.display = $event.target.files[0]"
+                  @change="previewImage"
+                  name="display"
+                  id="display"
                   class="input input-ghost"
                 />
+                <progress
+                  v-if="form.progress"
+                  :value="form.progress.percentage"
+                  max="100"
+                >
+                  {{ form.progress.percentage }}%
+                </progress>                               
                 <div
                   v-if="$page.props.errors.display"
                   class="text-sm text-red-700"

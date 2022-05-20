@@ -1,33 +1,42 @@
 <script setup>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import Pagination from "@/Layouts/Pagination.vue";
-import RemoveButton from "@/Components/RemoveButton.vue";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { Inertia } from "@inertiajs/inertia";
-import { reactive } from "vue";
+  import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import Pagination from "@/Layouts/Pagination.vue";
+  import RemoveButton from "@/Components/RemoveButton.vue";
+  import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import { Inertia } from "@inertiajs/inertia";
+  import { reactive } from "vue";
 
-defineProps({
-  title: String,
-  products: Object,
-  categories: Object,
-});
-
-let form = useForm({
-  name: null,
-});
-
-let submit = () => {
-  Inertia.post(route("category.store"), form, {
-    onFinish: () => form.reset(),
-    preserveScroll: true,
+  defineProps({
+    title: String,
+    products: Object,
+    categories: Object,
   });
-};
 
-const formatter = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  minimumFractionDigits: 2,
-});
+  let form = useForm({
+    name: null,
+  });
+
+  let submit = () => {
+    Inertia.post(route("category.store"), form, {
+      onFinish: () => form.reset(),
+      preserveScroll: true,
+    });
+  };
+
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 2,
+  });
+</script>
+<script>
+  export default {
+    methods: {
+      showImage() {
+        return "/storage/";
+      },
+    },
+  };
 </script>
 
 <template>
@@ -200,19 +209,19 @@ const formatter = new Intl.NumberFormat("id-ID", {
         >
           <div class="w-36 ml-4">
             <Link :href="route('products.show', stock.slug)">
-              <div
-                v-if="stock.display"
-                class="aspect-w-10 aspect-h-8 rounded-lg bg-center bg-cover"
-                style="background-image: url('{{ asset('storage/' . stock.display) }}'); background-blend-mode: multiply"
-              ></div>
-              <div
-                v-else
-                class="aspect-w-10 aspect-h-8 rounded-lg bg-center bg-cover"
-                style="
-                  background-image: url('https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg');
-                  background-blend-mode: multiply;
-                "
-              ></div>
+              <div v-if="stock.display">
+                <img
+                  :src="showImage() + stock.display"
+                  class="rounded-lg object-fill w-32 h-28"
+                />
+              </div>
+              <div v-else>
+                <img
+                  class="rounded-lg object-fill w-32 h-28"
+                  src="https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg"
+                  alt=""
+                />
+              </div>
             </Link>
           </div>
           <div class="py-3 font-roboto w-full px-4">
