@@ -1,37 +1,52 @@
 <script setup>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { reactive } from "vue";
+  import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import { Inertia } from "@inertiajs/inertia";
+  import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import { reactive } from "vue";
 
-let form = useForm({
-  title: Inertia.page.props.product.title,
-  category_id: Inertia.page.props.product.category_id,
-  merk: Inertia.page.props.product.merk,
-  description: Inertia.page.props.product.description,
-  price: Inertia.page.props.product.price,
-  display: Inertia.page.props.product.display,
-});
+  let form = useForm({
+    title: Inertia.page.props.product.title,
+    category_id: Inertia.page.props.product.category_id,
+    merk: Inertia.page.props.product.merk,
+    description: Inertia.page.props.product.description,
+    price: Inertia.page.props.product.price,
+    display: Inertia.page.props.product.display,
+    _method: "PUT",
+  });
 
-let submit = () => {
-  Inertia.patch(route("products.update", Inertia.page.props.product), form);
-};
+  let submit = () => {
+    Inertia.post(route("products.update", Inertia.page.props.product), form, {
+      forceFormData: true,
+    });
+  };
 
-defineProps({
-  categories: Object,
-});
+  defineProps({
+    categories: Object,
+  });
+</script>
+<script>
+  export default {
+    methods: {
+      showImage() {
+        return "/storage/";
+      },
+    },
+  };
 </script>
 
 <template>
   <Head>
-   <title>{{ Inertia.page.props.product.title }}</title>
+    <title>{{ Inertia.page.props.product.title }}</title>
   </Head>
 
   <BreezeAuthenticatedLayout>
     <template #header>
       <h2 class="font-semibold text-xl leading-tight">
         <Link :href="route('dashboard')"> Dashboard </Link>
-        / <span class="text-gray-500">{{ Inertia.page.props.product.title }} / Edit</span>
+        /
+        <span class="text-gray-500"
+          >{{ Inertia.page.props.product.title }} / Edit</span
+        >
       </h2>
     </template>
 
@@ -41,12 +56,12 @@ defineProps({
           <div class="p-6 bg-white border-b border-gray-200">
             <form @submit.prevent="submit">
               <div class="flex flex-col max-w-md justify-around space-y-3">
-                <label for="name">Judul Produk</label>
+                <label for="title">Judul Produk</label>
                 <input
                   v-model="form.title"
                   type="text"
-                  name="name"
-                  id="name"
+                  name="title"
+                  id="title"
                   class="input input-accent"
                 />
                 <div
@@ -56,7 +71,7 @@ defineProps({
                   {{ $page.props.errors.title }}
                 </div>
 
-                <label for="name">Kategori</label>
+                <label for="category_id">Kategori</label>
                 <select
                   v-model="form.category_id"
                   name="category_id"
@@ -78,12 +93,12 @@ defineProps({
                   {{ $page.props.errors.category_id }}
                 </div>
 
-                <label for="name">Merek</label>
+                <label for="merk">Merek</label>
                 <input
                   v-model="form.merk"
                   type="text"
-                  name="name"
-                  id="name"
+                  name="merk"
+                  id="merk"
                   class="input input-accent"
                 />
                 <div
@@ -93,12 +108,12 @@ defineProps({
                   {{ $page.props.errors.merk }}
                 </div>
 
-                <label for="name">Deskripsi</label>
+                <label for="description">Deskripsi</label>
                 <input
                   v-model="form.description"
                   type="text"
-                  name="name"
-                  id="name"
+                  name="description"
+                  id="description"
                   class="input input-accent"
                 />
                 <div
@@ -108,12 +123,12 @@ defineProps({
                   {{ $page.props.errors.description }}
                 </div>
 
-                <label for="name">Harga</label>
+                <label for="price">Harga</label>
                 <input
                   v-model="form.price"
                   type="text"
-                  name="name"
-                  id="name"
+                  name="price"
+                  id="price"
                   class="input input-ghost"
                 />
                 <div
@@ -123,14 +138,26 @@ defineProps({
                   {{ $page.props.errors.price }}
                 </div>
 
-                <label for="name">Gambar</label>
+                <label for="display">Gambar</label>
+                <img
+                  v-if="Inertia.page.props.product.display"
+                  :src="showImage() + Inertia.page.props.product.display"
+                  class="rounded-lg object-fill w-80 h-56"
+                />
                 <input
-                  v-model="form.display"
-                  type="text"
-                  name="name"
-                  id="name"
+                  type="file"
+                  @input="form.display = $event.target.files[0]"
+                  name="display"
+                  id="display"
                   class="input input-ghost"
                 />
+                <progress
+                  v-if="form.progress"
+                  :value="form.progress.percentage"
+                  max="100"
+                >
+                  {{ form.progress.percentage }}%
+                </progress>
                 <div
                   v-if="$page.props.errors.display"
                   class="text-sm text-red-700"
@@ -139,7 +166,10 @@ defineProps({
                 </div>
 
                 <div class="space-x-2">
-                  <button type="submit" class="btn btn-sm btn-accent text-white w-max">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-accent text-white w-max"
+                  >
                     Simpan
                   </button>
                   <Link

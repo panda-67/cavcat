@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Galery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class GaleryController extends Controller
 {
@@ -17,10 +19,11 @@ class GaleryController extends Controller
     public function index()
     {
         $galeries = Galery::latest()->paginate(9);
-        return view('galeries.galery', [
-            'title' => "Galery",
-            "categories" => Category::all()
-        ], compact('galeries'));
+        return Inertia::render('Galery/Galery', [
+            'title' => "Galeri",
+            "categories" => Category::all(),
+            "galeries" => $galeries
+        ]);
      }
 
     /**
@@ -30,7 +33,7 @@ class GaleryController extends Controller
      */
     public function create()
     {
-        return view('galeries.create', [
+        return Inertia::render('Galery/Create', [
             "title" => "Tambah Galeri",
         ]);
     }
@@ -45,8 +48,9 @@ class GaleryController extends Controller
     {
         $data = $request->validate([
             'title' => 'required',
-            'image' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ], [], [
+            'title' => 'judul',
             'image' => 'gambar'
         ]);
 
@@ -54,14 +58,15 @@ class GaleryController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('image')->getClientOriginalExtension();
             $data['image'] = $request->file('image')->storeAs(
-                'galery', $filename
+                'galery', $filename, 'public'
             );
         }
+        $data['title'] = Str::title($request->get('title'));
         // return $data;
         Galery::create($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Galeri berhasil ditambahkan.');
+            ->with('message', 'Galeri berhasil ditambahkan.');
     }
 
     // /**
@@ -83,9 +88,10 @@ class GaleryController extends Controller
      */
     public function edit(Galery $galery)
     {
-        return view('galeries.edit', [
+        return Inertia::render('Galery/Edit', [
             "title" => "Edit Galeri",
-        ], compact('galery'));
+            "galeries" => $galery
+        ]);
     }
 
     /**
@@ -106,12 +112,12 @@ class GaleryController extends Controller
 
         if ($request->file('image')) {
             if ($galery->image) {
-                Storage::delete($galery->image);
+                Storage::disk('public')->delete($galery->image);
             }
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('image')->getClientOriginalExtension();
             $data['image'] = $request->file('image')->storeAs(
-                'galery', $filename
+                'galery', $filename, 'public'
             );
         }
         // return $data;
@@ -119,7 +125,7 @@ class GaleryController extends Controller
             ->update($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Galeri berhasil diubah.');
+            ->with('message', 'Galeri berhasil diubah.');
     }
 
     /**
@@ -131,7 +137,7 @@ class GaleryController extends Controller
     public function destroy(Galery $galery)
     {
         if ($galery->image) {
-            Storage::delete($galery->image);
+            Storage::disk('public')->delete($galery->image);
         }
 
         Galery::destroy($galery->id);

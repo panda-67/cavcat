@@ -23,13 +23,13 @@ class ProductController extends Controller
         if (request('category')) {
             $category = Category::firstWhere('slug', request('category'));
             $namecategory = $category->name;
-        } 
+        }
 
-        $products = Product::with('category')->latest()->filter(request(['search', 'category']))->paginate(12);        
-        
+        $products = Product::with('category')->latest()->filter(request(['search', 'category']))->paginate(12);
+
         return Inertia::render('Product/Produk', [
             "title" => "Products",
-            "categoryName" =>$namecategory,
+            "categoryName" => $namecategory,
             "categories" => Category::latest()->get(),
             "products" => $products
         ]);
@@ -78,7 +78,9 @@ class ProductController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
-                'gambar', $filename, 'public'
+                'gambar',
+                $filename,
+                'public'
             );
         }
         $data['title'] = Str::title($request->get('title'));
@@ -96,7 +98,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product, $slug)
-    {        
+    {
         $stock = $product->with('category')->where('slug', $slug)->first();
         return Inertia::render('Product/Show', [
             "title" => "Detail",
@@ -131,28 +133,26 @@ class ProductController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'category_id' => 'required',
-            'merk' => 'required',
-            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'merk' => 'bail|required|string',
+            'display' => 'nullable',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [
             'title' => 'judul',
             'category_id' => 'kategori',
             'merk' => 'merek',
-            'display' => 'picture',
+            'display' => 'gambar',
             'description' => 'deskripsi',
             'price' => 'harga'
         ]);
 
         if ($request->file('display')) {
-            if ($product->display) {
-                Storage::delete($product->display);
-            }
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
                 'gambar',
-                $filename
+                $filename,
+                'public'
             );
         }
         $data['title'] = Str::title($request->get('title'));

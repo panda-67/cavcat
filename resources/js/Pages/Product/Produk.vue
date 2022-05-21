@@ -111,7 +111,7 @@
                 hover:bg-white hover:text-gray-800
               "
             >
-              <Link :href="route('produk')"> All Product </Link>
+              <Link :href="route('produk')"> Semua Produk </Link>
             </li>
           </ul>
         </div>
