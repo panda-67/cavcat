@@ -16,6 +16,8 @@
   let submit = () => {
     Inertia.post(route("products.store"), form, {
       forceFormData: true,
+      onFinish: () => form.reset(),
+      preserveScroll: true,
     });
   };
 

@@ -17,21 +17,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $namecategory = '';
         if (request('category')) {
             $category = Category::firstWhere('slug', request('category'));
-            $namecategory = $category->name;
+            $namecategory = $category;
         }
 
-        $products = Product::with('category')->latest()->filter(request(['search', 'category']))->paginate(12);
+        $products = Product::with('category')
+            ->latest()
+            ->filter(request(['search', 'category']))
+            ->paginate(12)
+            ->withQueryString();
 
         return Inertia::render('Product/Produk', [
             "title" => "Products",
             "categoryName" => $namecategory,
             "categories" => Category::latest()->get(),
-            "products" => $products
+            "products" => $products,
+            "filters" => $request->only(['search']),
         ]);
     }
 

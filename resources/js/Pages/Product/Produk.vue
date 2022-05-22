@@ -2,27 +2,34 @@
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
   import Pagination from "@/Layouts/Pagination.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
+  import debounce from "lodash/debounce";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
   import { Inertia } from "@inertiajs/inertia";
-  import { reactive } from "vue";
+  import { reactive, ref, watch } from "vue";
 
-  defineProps({
+  let props = defineProps({
     title: String,
     products: Object,
     categories: Object,
-    categoryName: String,
+    categoryName: Object,
+    filters: Object,
   });
 
-  let form = useForm({
-    name: null,
-  });
+  let search = ref(props.filters.search);
 
-  let submit = () => {
-    Inertia.post(route("category.store"), form, {
-      onFinish: () => form.reset(),
-      preserveScroll: true,
-    });
-  };
+  watch(
+    search,
+    debounce(function (value) {
+      Inertia.get(
+        route("produk"),
+        { category: props.categoryName.slug, search: value },
+        {
+          preserveState: true,
+          replace: true,
+        }
+      );
+    }, 350)
+  );
 
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -45,88 +52,98 @@
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <div
-        class="
-          flex
-          gap-2
-          justify-start
-          font-semibold
-          text-lg
-          bg-white
-          text-gray-800
-          leading-tight
-          w-full
-        "
-      >
-        <div class="dropdown dropdown-start pb-1">
-          <div tabindex="0" class="px-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              class="inline-block w-5 stroke-current cursor-pointer"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-            </svg>
-          </div>
-          <ul
-            tabindex="0"
-            class="
-              dropdown-content
-              text-sm
-              font-normal
-              shadow-md
-              px-3
-              pt-4
-              bg-base-100
-              rounded-md
-              w-max
-            "
-          >
-            <p class="font-bold mb-1 border-b pb-1 border-gray-300">Kategori</p>
-            <Link
-              v-for="category in categories"
-              :key="category.id"
-              :href="route('category', category.slug)"
-              as="button"
-              type="button"
-              class="flex flex-col pt-2 hover:text-blue-500"
-            >
-              <li>{{ category.name }}</li>
-            </Link>
-            <li
+      <div class="flex justify-between items-center">
+        <div
+          class="
+            flex
+            gap-2
+            justify-start
+            font-semibold
+            text-lg
+            bg-white
+            text-gray-800
+            leading-tight
+            w-full
+          "
+        >
+          <div class="dropdown dropdown-start pb-1">
+            <div tabindex="0" class="px-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block w-5 stroke-current cursor-pointer"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
               class="
-                mt-1
-                -mx-3
-                py-1
+                dropdown-content
+                text-sm
+                font-normal
+                shadow-md
                 px-3
+                pt-4
+                bg-base-100
                 rounded-md
-                bg-gray-800
-                text-white
-                hover:bg-white hover:text-gray-800
+                w-max
               "
             >
-              <Link :href="route('produk')"> Semua Produk </Link>
-            </li>
-          </ul>
-        </div>
-        <div class="flex items-center">
-          <div v-if="categoryName" class="font-semibold flex gap-2">
-            <div class="ml-2">
-              <p class="text-2xs font-extralight -mb-1.5 -ml-3">Kategori</p>
-              <p class="text-sm md:text-lg">{{ categoryName }}</p>
+              <p class="font-bold mb-1 border-b pb-1 border-gray-300">
+                Kategori
+              </p>
+              <Link
+                v-for="category in categories"
+                :key="category.id"
+                :href="route('category', category.slug)"
+                as="button"
+                type="button"
+                class="flex flex-col pt-2 hover:text-blue-500"
+              >
+                <li>{{ category.name }}</li>
+              </Link>
+              <li
+                class="
+                  mt-1
+                  -mx-3
+                  py-1
+                  px-3
+                  rounded-md
+                  bg-gray-800
+                  text-white
+                  hover:bg-white hover:text-gray-800
+                "
+              >
+                <Link :href="route('produk')"> Semua Produk </Link>
+              </li>
+            </ul>
+          </div>
+          <div class="flex items-center">
+            <div v-if="categoryName" class="font-semibold flex gap-2">
+              <div class="ml-2">
+                <p class="text-2xs font-extralight -mb-1.5 -ml-3">Kategori</p>
+                <p class="text-sm md:text-lg">{{ categoryName.name }}</p>
+              </div>
+            </div>
+            <div v-else class="ml-2">
+              <p class="text-2xs font-extralight -mb-1.5 -ml-3">Semua</p>
+              <p class="text-sm md:text-lg">Produk</p>
             </div>
           </div>
-          <div v-else class="ml-2">
-            <p class="text-2xs font-extralight -mb-1.5 -ml-3">Semua</p>
-            <p class="text-sm md:text-lg">Produk</p>
-          </div>
         </div>
+        <input
+          v-model="search"
+          type="text"
+          placeholder="Search..."
+          class="input input-sm input-ghost"
+        />
       </div>
     </template>
 
@@ -231,7 +248,10 @@
                     <p>{{ formatter.format(stock.price) }}</p>
                   </div>
                 </div>
-                <div class="flex gap-2 items-center text-gray-500">
+                <div
+                  v-if="$page.props.auth.user"
+                  class="flex gap-2 items-center text-gray-500"
+                >
                   <Link
                     :href="route('products.edit', stock)"
                     as="button"
