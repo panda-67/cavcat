@@ -11,10 +11,19 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ["Nunito", ...defaultTheme.fontFamily.sans],
+                poppins: "Poppins, sans-serif",
+                roboto: "Roboto, sans-serif",
+            },
+            spacing: {
+                '120': '32rem',       
             },
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('daisyui'),
+        require('@tailwindcss/aspect-ratio'),
+    ],
 };

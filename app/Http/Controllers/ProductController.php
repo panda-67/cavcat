@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -15,21 +17,27 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $namecategory = '';
         if (request('category')) {
             $category = Category::firstWhere('slug', request('category'));
-            $namecategory = $category->name;
-        } 
+            $namecategory = $category;
+        }
 
-        $products = Product::with('category')->latest()->filter(request(['search', 'category']))->paginate(12);        
+        $products = Product::with('category')
+            ->latest()
+            ->filter(request(['search', 'category']))
+            ->paginate(12)
+            ->withQueryString();
 
-        return view('product.produk', [
+        return Inertia::render('Product/Produk', [
             "title" => "Products",
-            "categoryName" =>$namecategory,
+            "categoryName" => $namecategory,
             "categories" => Category::latest()->get(),
-        ], compact('products'));
+            "products" => $products,
+            "filters" => $request->only(['search']),
+        ]);
     }
 
     /**
@@ -39,7 +47,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create', [
+        return Inertia::render('Product/Create', [
             "title" => "Tambah",
             "categories" => Category::all()
         ]);
@@ -66,7 +74,7 @@ class ProductController extends Controller
             'title' => 'judul',
             'category_id' => 'kategori',
             'merk' => 'merek',
-            'display' => 'picture',
+            'display' => 'gambar',
             'description' => 'deskripsi',
             'price' => 'harga'
         ]);
@@ -75,14 +83,17 @@ class ProductController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
-                'gambar', $filename
+                'gambar',
+                $filename,
+                'public'
             );
         }
+        $data['title'] = Str::title($request->get('title'));
         // return $data;
         Product::create($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Produk berhasil ditambahkan.');
+            ->with('message', 'Produk berhasil ditambahkan.');
     }
 
     /**
@@ -93,9 +104,11 @@ class ProductController extends Controller
      */
     public function show(Product $product, $slug)
     {
-        //
-        $stock = Product::where('slug', $slug)->first();
-        return view('product.show', ["title" => "Detail"], compact('stock'));
+        $stock = $product->with('category')->where('slug', $slug)->first();
+        return Inertia::render('Product/Show', [
+            "title" => "Detail",
+            "stock" => $stock,
+        ]);
     }
 
     /**
@@ -106,10 +119,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('product.edit', [
+        return Inertia::render('Product/Edit', [
             "title" => "Edit",
-            "categories" => Category::all()
-        ],  compact('product'));
+            "categories" => Category::all(),
+            "product" => $product,
+        ]);
     }
 
     /**
@@ -124,31 +138,29 @@ class ProductController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'category_id' => 'required',
-            'merk' => 'required',
-            'display' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'merk' => 'bail|required|string',
+            'display' => 'nullable',
             'description' => 'required',
             'price' => 'bail|required|numeric|between:0,9999999.99'
         ], [], [
             'title' => 'judul',
             'category_id' => 'kategori',
             'merk' => 'merek',
-            'display' => 'picture',
+            'display' => 'gambar',
             'description' => 'deskripsi',
             'price' => 'harga'
         ]);
 
         if ($request->file('display')) {
-            if ($product->display) {
-                Storage::delete($product->display);
-            }
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
                 'gambar',
-                $filename
+                $filename,
+                'public'
             );
         }
-
+        $data['title'] = Str::title($request->get('title'));
         // return $request;
         Product::where(
             'id',
@@ -156,7 +168,7 @@ class ProductController extends Controller
         )->update($data);
 
         return redirect()->route('dashboard')
-            ->with('success', 'Produk berhasil diubah.');
+            ->with('message', 'Produk berhasil diubah.');
     }
 
     /**
@@ -168,7 +180,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->display) {
-            Storage::delete($product->display);
+            Storage::disk('public')->delete($product->display);
         }
 
         Product::destroy($product->id);

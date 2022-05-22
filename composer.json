@@ -6,12 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "diglactic/laravel-breadcrumbs": "^7.2",
+        "glhd/gretel": "^1.5",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.5.4",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
+        "robertboes/inertia-breadcrumbs": "^0.1.0",
         "spatie/laravel-sluggable": "^3.4",
         "tightenco/ziggy": "^1.0"
     },
