@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GaleryController;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Galery;
 use Inertia\Inertia;
 
 /*
@@ -21,14 +22,12 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    $product = Product::orderBy("created_at", "desc")->first();
+    $products = Product::with('category')->latest()->limit(4)->get();
+    $galeries = Galery::latest()->limit(4)->get();
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
         "title" => "Welcome",
-        "product" => $product,
+        "products" => $products,
+        "galeries" => $galeries,
         "categories" => Category::all()
     ]);
 })->name('home')->breadcrumb('Beranda');
