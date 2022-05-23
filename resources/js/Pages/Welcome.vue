@@ -118,8 +118,8 @@
             top-1/2
           "
         >
-          <a href="#slide1" class="btn btn-circle">❮</a>
-          <a href="#slide3" class="btn btn-circle">❯</a>
+          <a href="#slide1" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide3" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
       <div id="slide3" class="carousel-item relative w-full">
@@ -164,8 +164,8 @@
             top-1/2
           "
         >
-          <a href="#slide2" class="btn btn-circle">❮</a>
-          <a href="#slide4" class="btn btn-circle">❯</a>
+          <a href="#slide2" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide4" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
       <div id="slide4" class="carousel-item relative w-full">
@@ -210,8 +210,8 @@
             top-1/2
           "
         >
-          <a href="#slide3" class="btn btn-circle">❮</a>
-          <a href="#slide1" class="btn btn-circle">❯</a>
+          <a href="#slide3" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide1" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
     </div>
@@ -288,12 +288,16 @@
                   <div class="text-xs sm:text-sm font-thin">
                     <h2>
                       Dalam
-                      <strong
-                        ><a
-                          href="{{ route('category', stock.category.slug) }}"
-                          >{{ stock.category.name }}</a
-                        ></strong
-                      >
+                      <strong>
+                        <Link
+                          :href="route('category', stock.category.slug)"
+                          as="button"
+                          type="button"
+                          class="text-left"
+                        >
+                          {{ stock.category.name }}
+                        </Link>
+                      </strong>
                     </h2>
                   </div>
                 </div>

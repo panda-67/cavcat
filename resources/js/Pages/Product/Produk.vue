@@ -48,7 +48,7 @@
 </script>
 
 <template>
-  <Head title="Dashboard" />
+  <Head title="Produk" />
 
   <BreezeAuthenticatedLayout>
     <template #header>
@@ -218,12 +218,16 @@
                   <div class="text-xs sm:text-sm font-thin">
                     <h2>
                       Dalam
-                      <strong
-                        ><a
-                          href="{{ route('category', stock.category.slug) }}"
-                          >{{ stock.category.name }}</a
-                        ></strong
-                      >
+                      <strong>
+                        <Link
+                          :href="route('category', stock.category.slug)"
+                          as="button"
+                          type="button"
+                          class="text-left"
+                        >
+                          {{ stock.category.name }}
+                        </Link>
+                      </strong>
                     </h2>
                   </div>
                 </div>

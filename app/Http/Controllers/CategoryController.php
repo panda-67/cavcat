@@ -20,9 +20,10 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $data = Str::title($request->validate([
+        $data = $request->validate([
             'name' => 'required'
-        ]));
+        ]);
+        $data['name'] = Str::title($request->get('name'));
         Category::create($data);
         return redirect()->route('dashboard')->with('message', "Category $request->name add successfully!");
     }

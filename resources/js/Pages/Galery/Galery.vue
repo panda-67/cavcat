@@ -22,7 +22,7 @@
   };
 </script>
 <template>
-  <Head title="Dashboard" />
+  <Head title="Galeri - {{ galery.title }}" />
 
   <BreezeAuthenticatedLayout>
     <template #header>

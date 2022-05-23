@@ -33,7 +33,7 @@
 
 <template>
   <Head>
-    <title>Tambah</title>
+    <title>Galeri - Tambah</title>
   </Head>
 
   <BreezeAuthenticatedLayout>
