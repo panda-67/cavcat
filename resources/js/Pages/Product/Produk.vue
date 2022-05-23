@@ -167,12 +167,12 @@
                   <div v-if="stock.display">
                     <img
                       :src="showImage() + stock.display"
-                      class="rounded-lg object-fill w-80 h-56"
+                      class="rounded-lg object-fill w-40 h-28 md:w-80 md:h-56"
                     />
                   </div>
                   <div v-else>
                     <img
-                      class="rounded-lg object-fill w-80 h-56"
+                      class="rounded-lg object-fill w-40 h-28 md:w-80 md:h-56"
                       src="https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg"
                       alt=""
                     />

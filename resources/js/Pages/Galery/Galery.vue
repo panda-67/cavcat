@@ -46,14 +46,16 @@
                 justify-between
                 p-2
                 rounded-b-lg
-                border-2 border-t-0
-                border-gray-300
+                border-2 border-t-0 border-gray-300
               "
             >
               <div class="text-gray-700 text-sm lg:text-lg">
                 <p>{{ galery.title }}</p>
               </div>
-              <div v-if="$page.props.auth.user" class="flex justify-end gap-1 items-center text-gray-500">
+              <div
+                v-if="$page.props.auth.user"
+                class="flex justify-end gap-1 items-center text-gray-500"
+              >
                 <Link
                   :href="route('galeries.edit', galery)"
                   as="button"
