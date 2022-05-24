@@ -5,7 +5,7 @@
     xml:space="preserve"
     class="
       fill-current
-      h-7
+      h-6 md:h-7
       p-1
       border
       rounded-md

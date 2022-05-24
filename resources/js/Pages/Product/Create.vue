@@ -39,7 +39,7 @@
 
 <template>
   <Head>
-    <title>Tambah</title>
+    <title>Produk - Tambah</title>
   </Head>
 
   <BreezeAuthenticatedLayout>

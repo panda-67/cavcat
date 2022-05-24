@@ -1,6 +1,7 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
   import Pagination from "@/Layouts/Pagination.vue";
+  import Footer from "@/Components/Footer.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
   import debounce from "lodash/debounce";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
@@ -147,8 +148,8 @@
       </div>
     </template>
 
-    <div class="md:grid md:grid-cols-4">
-      <div class="col-span-4 mx-2 my-4 sm:px-4">
+    <div class="mr-5 md:mr-10">
+      <div class="col-span-4">
         <div
           class="
             bg-base
@@ -161,18 +162,18 @@
           "
         >
           <div v-for="stock in products.data" :key="stock.id">
-            <div class="py-3 font-roboto w-full px-6 flex flex-col">
+            <div class="py-3 font-roboto w-full mx-3 md:mx-6 flex flex-col">
               <div>
                 <Link :href="route('products.show', stock.slug)">
                   <div v-if="stock.display">
                     <img
                       :src="showImage() + stock.display"
-                      class="rounded-lg object-fill w-40 h-28 md:w-80 md:h-56"
+                      class="rounded-lg object-fill w-44 h-28 md:w-80 md:h-56"
                     />
                   </div>
                   <div v-else>
                     <img
-                      class="rounded-lg object-fill w-40 h-28 md:w-80 md:h-56"
+                      class="rounded-lg object-fill w-44 h-28 md:w-80 md:h-56"
                       src="https://cdn.pixabay.com/photo/2021/11/16/08/01/animal-6800387__340.jpg"
                       alt=""
                     />
@@ -244,9 +245,10 @@
                   <div
                     class="
                       py-2
-                      text-gray-600 text-lg
-                      sm:text-base
-                      font-mono font-bold
+                      text-gray-600 text-sm
+                      md:text-lg
+                      font-mono
+                      md:font-bold
                     "
                   >
                     <p>{{ formatter.format(stock.price) }}</p>
@@ -264,7 +266,8 @@
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="
-                        h-7
+                        h-5
+                        md:h-7
                         hover:cursor-pointer
                         rounded-md
                         hover:bg-green-500 hover:text-gray-100
@@ -300,5 +303,6 @@
     <div class="pb-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
       <Pagination :links="products.links" class="my-8 px-8 sm:px-0" />
     </div>
+    <Footer />
   </BreezeAuthenticatedLayout>
 </template>

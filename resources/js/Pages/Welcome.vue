@@ -1,5 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import Footer from "@/Components/Footer.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
 
   defineProps({
@@ -217,21 +218,11 @@
     </div>
 
     <!-- Latest Products -->
-    <div class="">
-      <div class="col-span-4 mx-2 my-4 sm:px-4">
-        <div
-          class="
-            bg-base
-            grid
-            gap-2
-            md:gap-4
-            grid-cols-2
-            md:grid-cols-2
-            lg:grid-cols-4
-          "
-        >
+    <div class="mx-auto">
+      <div class="col-span-4 mx-3 my-4 md:mx-4">
+        <div class="bg-base grid md:gap-2 grid-cols-2 lg:grid-cols-4">
           <div v-for="stock in products" :key="stock.id">
-            <div class="py-3 font-roboto w-full px-6 flex flex-col">
+            <div class="py-3 font-roboto w-full px-2 md:px-4 flex flex-col">
               <div>
                 <Link :href="route('products.show', stock.slug)">
                   <div v-if="stock.display">
@@ -314,8 +305,8 @@
                   <div
                     class="
                       py-2
-                      text-gray-600 text-lg
-                      sm:text-base
+                      text-gray-600 text-sm
+                      md:text-lg
                       font-mono font-bold
                     "
                   >
@@ -334,7 +325,8 @@
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="
-                        h-7
+                        h-5
+                        md:h-7
                         hover:cursor-pointer
                         rounded-md
                         hover:bg-green-500 hover:text-gray-100
@@ -367,5 +359,6 @@
         </div>
       </div>
     </div>
+    <Footer />
   </BreezeAuthenticatedLayout>
 </template>

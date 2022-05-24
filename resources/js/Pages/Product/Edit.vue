@@ -36,7 +36,7 @@
 
 <template>
   <Head>
-    <title>{{ Inertia.page.props.product.title }}</title>
+    <title>Edit - {{ Inertia.page.props.product.title }}</title>
   </Head>
 
   <BreezeAuthenticatedLayout>

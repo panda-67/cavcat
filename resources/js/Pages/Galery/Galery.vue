@@ -1,6 +1,7 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
   import Pagination from "@/Layouts/Pagination.vue";
+  import Footer from "@/Components/Footer.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
   import { Inertia } from "@inertiajs/inertia";
@@ -22,7 +23,7 @@
   };
 </script>
 <template>
-  <Head title="Galeri - {{ galery.title }}" />
+  <Head title="Galeri" />
 
   <BreezeAuthenticatedLayout>
     <template #header>
@@ -128,5 +129,6 @@
         </div>
       </div>
     </div>
+    <Footer />
   </BreezeAuthenticatedLayout>
 </template>
