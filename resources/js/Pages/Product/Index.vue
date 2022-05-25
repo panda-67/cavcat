@@ -1,6 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-  import Pagination from "@/Layouts/Pagination.vue";
+  import Pagination from "@/Components/Pagination.vue";
   import Footer from "@/Components/Footer.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
   import debounce from "lodash/debounce";

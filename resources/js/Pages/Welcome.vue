@@ -38,26 +38,30 @@
           :src="showImage() + galeries[0].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
         <img
           v-else
-          src="https://api.lorem.space/image/car?w=800&h=600&hash=500B67FB"
+          src="https://api.lorem.space/image/car?w=300&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 
@@ -84,26 +88,30 @@
           :src="showImage() + galeries[1].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
         <img
           v-else
-          src="https://api.lorem.space/image/hat?w=800&h=600&hash=500B67FB"
+          src="https://api.lorem.space/image/car?w=800&h=200&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
         <div
@@ -129,12 +137,14 @@
           :src="showImage() + galeries[2].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
@@ -143,12 +153,14 @@
           src="https://api.lorem.space/image/house?w=800&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 
@@ -175,12 +187,14 @@
           :src="showImage() + galeries[3].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
@@ -189,12 +203,14 @@
           src="https://api.lorem.space/image/car?w=800&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 

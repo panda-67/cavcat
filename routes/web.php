@@ -32,13 +32,27 @@ Route::get('/', function () {
     ]);
 })->name('home')->breadcrumb('Beranda');
 
-Route::get('/dashboard', function () {    
-    return Inertia::render('Dashboard', [
-        "title" => "Dashboard",
-        "categories" => Category::all(),
-        "products" => Product::with('category')->latest()->paginate(10)
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {    
+        return Inertia::render('Dashboard/Product', [
+            "title" => "Dashboard - Produk",
+            "categories" => Category::all(),
+            "products" => Product::with('category')->latest()->paginate(10)
+        ]);
+    })->middleware('verified')->name('dashboard');
+    Route::get('/dashboard/gallery', function () {
+        return Inertia::render('Dashboard/Gallery', [
+            "title" => "Dashboard - Galeri",
+            "galeries" => Galery::latest()->paginate(10)
+        ]);
+    })->name('dashboard.gallery');
+    Route::get('/dashboard/category', function () {
+        return Inertia::render('Dashboard/Category', [
+            "title" => "Dashboard - Kategori",
+            "categories" => Category::all()
+        ]);
+    })->name('dashboard.category');
+});
 
 require __DIR__.'/auth.php';
 

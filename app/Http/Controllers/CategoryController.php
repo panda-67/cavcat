@@ -25,6 +25,6 @@ class CategoryController extends Controller
         ]);
         $data['name'] = Str::title($request->get('name'));
         Category::create($data);
-        return redirect()->route('dashboard')->with('message', "Category $request->name add successfully!");
+        return redirect()->route('dashboard.category')->with('message', "Category $request->name add successfully!");
     }
 }

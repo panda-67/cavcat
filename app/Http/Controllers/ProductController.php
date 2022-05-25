@@ -31,7 +31,7 @@ class ProductController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        return Inertia::render('Product/Produk', [
+        return Inertia::render('Product/Index', [
             "title" => "Products",
             "categoryName" => $namecategory,
             "categories" => Category::latest()->get(),

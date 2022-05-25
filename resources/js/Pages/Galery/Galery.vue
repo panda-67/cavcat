@@ -1,6 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
-  import Pagination from "@/Layouts/Pagination.vue";
+  import Pagination from "@/Components/Pagination.vue";
   import Footer from "@/Components/Footer.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -32,14 +32,26 @@
       </h2>
     </template>
 
-    <div v-for="galery in galeries.data" :key="galery.id" class="mx-6 my-4">
-      <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-        <label for="modal-{{ galery.id }}" class="">
+    <div
+      v-for="galery in galeries.data"
+      :key="galery.id"
+      class="
+        mx-6
+        my-4
+        grid
+        gap-4
+        grid-cols-1
+        sm:grid-cols-2
+        md:grid-cols-3
+      "
+    >
+      <div>
+        <label :for="galery.id">
           <div>
             <img
               :src="showImage() + galery.image"
               alt=""
-              class="rounded-t-lg"
+              class="rounded-t-lg object-cover"
             />
             <div
               class="
@@ -95,20 +107,16 @@
             </div>
           </div>
         </label>
-        <input
-          type="checkbox"
-          id="modal-{{ galery.id }}"
-          class="modal-toggle"
-        />
+        <input type="checkbox" :id="galery.id" class="modal-toggle" />
         <div class="modal h-screen w-screen flex items-center">
           <div class="sm:h-screen">
             <div class="rounded-lg flex flex-col items-end">
               <img
-                class="rounded-lg sm:h-screen"
+                class="rounded-lg sm:h-screen object-cover"
                 :src="showImage() + galery.image"
                 alt="{{ galery.title }}"
               />
-              <label for="modal-{{ galery.id }}" class="w-max -mt-12 mx-4">
+              <label :for="galery.id" class="w-max -mt-12 mx-4">
                 <svg
                   class="h-6 lg:h-10 text-red-600 hover:text-blue-500"
                   stroke="currentColor"
@@ -128,6 +136,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="pb-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <Pagination :links="galeries.links" class="my-8 px-8 sm:px-0" />
     </div>
     <Footer />
   </BreezeAuthenticatedLayout>

@@ -65,7 +65,7 @@ class GaleryController extends Controller
         // return $data;
         Galery::create($data);
 
-        return redirect()->route('dashboard')
+        return redirect()->route('dashboard.gallery')
             ->with('message', 'Galeri berhasil ditambahkan.');
     }
 
@@ -124,7 +124,7 @@ class GaleryController extends Controller
         Galery::where('id', $galery->id)
             ->update($data);
 
-        return redirect()->route('dashboard')
+        return redirect()->route('dashboard.gallery')
             ->with('message', 'Galeri berhasil diubah.');
     }
 
@@ -142,7 +142,7 @@ class GaleryController extends Controller
 
         Galery::destroy($galery->id);
 
-        return redirect()->route('galery')
+        return redirect()->route('dashboard.gallery')
             ->withSuccess(__('Galery berhasil dihapus.'));
     }
 }

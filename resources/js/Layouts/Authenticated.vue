@@ -82,7 +82,7 @@ const showingNavigationDropdown = ref(false);
                           duration-150
                         "
                       >
-                        <div v-if="$page.props.auth.user">
+                        <div v-if="$page.props.auth.user" class="capitalize">
                           {{ $page.props.auth.user.name }}
                         </div>
                         <svg

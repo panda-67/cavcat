@@ -39,7 +39,7 @@
   <BreezeAuthenticatedLayout>
     <template #header>
       <h2 class="font-semibold text-xl leading-tight">
-        <Link :href="route('dashboard')"> Dashboard </Link>
+        <Link :href="route('dashboard.gallery')"> Dashboard </Link>
         / <span class="text-gray-500">Tambah Galeri</span>
       </h2>
     </template>
