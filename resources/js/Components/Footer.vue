@@ -1,9 +1,10 @@
 <script setup>
   import { Link } from "@inertiajs/inertia-vue3";
+  import { Inertia } from "@inertiajs/inertia";
 
-  defineProps({
-    categories: Object,
-  });
+  // defineProps({
+  //   categories: Object,
+  // });
 </script>
 
 <template>
@@ -32,9 +33,9 @@
         <div class="hover:text-blue-500">Galeri</div>
       </Link>
     </div>
-    <!-- <div>
+    <div>
       <span class="footer-title">Kategori</span>
-      <div v-for="kategori in categories" :key="kategori.id">
+      <div v-for="kategori in Inertia.page.props.categories" :key="kategori.id">
         <Link
           :href="route('category', kategori.slug)"
           class="hover:text-blue-500"
@@ -42,7 +43,7 @@
           {{ kategori.name }}
         </Link>
       </div>
-    </div> -->
+    </div>
     <div>
       <span class="footer-title">Sosial</span>
       <div class="grid grid-flow-col gap-4">

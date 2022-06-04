@@ -16,6 +16,15 @@
     minimumFractionDigits: 2,
   });
 </script>
+<script>
+  export default {
+    methods: {
+      showImage() {
+        return "/storage/";
+      },
+    },
+  };
+</script>
 
 <template>
   <Head title="Dashboard - Produk" />
@@ -32,7 +41,7 @@
       </Link>
     </template>
 
-    <div class="mt-4">
+    <div class="mt-4 mx-2">
       <div class="flex flex-col gap-2">
         <div
           v-for="stock in products.data"

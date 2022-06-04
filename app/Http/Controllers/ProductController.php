@@ -108,6 +108,7 @@ class ProductController extends Controller
         return Inertia::render('Product/Show', [
             "title" => "Detail",
             "stock" => $stock,
+            "categories" => Category::all(),
         ]);
     }
 

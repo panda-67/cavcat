@@ -26,6 +26,8 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+        "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@tailwindcss/aspect-ratio": "^0.4.0",
         "daisyui": "^2.14.3"
     }

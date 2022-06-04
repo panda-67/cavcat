@@ -4,7 +4,7 @@
   import { Head, Link } from "@inertiajs/inertia-vue3";
 
   defineProps({
-    category: Object,
+    categories: Object,
   });
 </script>
 
@@ -18,7 +18,7 @@
 
     <div class="mx-6 my-4 md:mx-16 md:my-8 flex flex-col items-center md:flex-row md:justify-center">
       <div
-        v-for="kategori in category"
+        v-for="kategori in categories"
         :key="kategori.id"
         class="flex flex-col gap-4 justify-center"
         style="width: 700px"

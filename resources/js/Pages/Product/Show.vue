@@ -1,5 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import Footer from "@/Components/Footer.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
   import BreezeNavLink from "@/Components/NavLink.vue";
   import { Inertia } from "@inertiajs/inertia";
@@ -8,6 +9,7 @@
 
   defineProps({
     stock: Object,
+    categories: Object,
   });
 
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -43,8 +45,8 @@
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-thin text-base leading-tight">
-        <nav class="flex" v-if="breadcrumbs">
+      <h2 class="font-thin text-sm leading-tight">
+        <nav class="flex " v-if="breadcrumbs">
           <div class="ml-1" v-for="page in breadcrumbs" :key="page.id">
             <span v-if="page === '/'">/</span>
             <Link
@@ -206,5 +208,6 @@
         </div>
       </div>
     </div>
+    <Footer />
   </BreezeAuthenticatedLayout>
 </template>

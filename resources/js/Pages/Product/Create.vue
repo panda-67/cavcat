@@ -3,8 +3,9 @@
   import { Inertia } from "@inertiajs/inertia";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
   import { reactive } from "vue";
+  import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
- const form = useForm({
+  const form = useForm({
     title: null,
     category_id: null,
     merk: null,
@@ -16,7 +17,7 @@
   let submit = () => {
     Inertia.post(route("products.store"), form, {
       forceFormData: true,
-      onFinish: () => form.reset(),
+      // onFinish: () => form.reset(),
       preserveScroll: true,
     });
   };
@@ -25,17 +26,6 @@
     categories: Object,
   });
 </script>
-<script>
-  export default {
-    methods: {
-      previewImage(e) {
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
-      },
-    },
-  };
-</script>
-
 
 <template>
   <Head>
@@ -109,6 +99,16 @@
                 </div>
 
                 <label for="description">Deskripsi</label>
+                <!-- <div id="app">
+                  <ckeditor
+                    :editor="editor"
+                    v-model="editorData"
+                    name="description"
+                    id="description"
+                    class="input input-accent"
+                    :config="editorConfig"
+                  ></ckeditor>
+                </div> -->
                 <input
                   v-model="form.description"
                   type="text"
@@ -129,7 +129,7 @@
                   type="text"
                   name="price"
                   id="price"
-                  class="input input-ghost"
+                  class="input input-accent"
                 />
                 <div
                   v-if="$page.props.errors.price"

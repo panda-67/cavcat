@@ -22,18 +22,18 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    $products = Product::with('category')->latest()->limit(4)->get();
-    $galeries = Galery::latest()->limit(4)->get();
     return Inertia::render('Welcome', [
         "title" => "Welcome",
-        "products" => $products,
-        "galeries" => $galeries,
-        "categories" => Category::all()
+        "products" => Product::with('category')->latest()->limit(4)->get(),
+        "galeries" => Galery::latest()->limit(4)->get(),
+        "categories" => Category::orderBy('name', 'ASC')->get()
     ]);
 })->name('home')->breadcrumb('Beranda');
 
+
+// Dashboard Route
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {    
+    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard/Product', [
             "title" => "Dashboard - Produk",
             "categories" => Category::all(),
@@ -52,9 +52,15 @@ Route::middleware('auth')->group(function () {
             "categories" => Category::all()
         ]);
     })->name('dashboard.category');
+    Route::get('/dashboard/setting', function () {
+        return Inertia::render('Dashboard/Setting', [
+            "title" => "Dashboard - Setting",
+
+        ]);
+    })->name('dashboard.setting');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::resource('products', ProductController::class)
     ->except(['index', 'show'])
@@ -68,12 +74,18 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])
     ->name('products.show')
     ->breadcrumb('', 'produk');
 
+Route::get('/products?category={category:slug}')->name('category');
+
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 
 Route::post('category/store', [CategoryController::class, 'store'])
-	->middleware('auth')->name('category.store');
+    ->middleware('auth')->name('category.store');
 
-Route::get('/products?category={category:slug}')->name('category');
+Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])
+    ->name('category.edit');
+
+Route::patch('category/{category}', [CategoryController::class, 'update'])
+    ->middleware('auth')->name('category.update');
 
 Route::get('/galeries', [GaleryController::class, 'index'])->name('galery');
 

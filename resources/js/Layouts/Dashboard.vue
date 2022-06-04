@@ -83,17 +83,7 @@
       <!-- Side Item -->
       <div class="col-span-1 my-4">
         <div class="flex flex-col gap-2">
-          <div
-            class="
-              flex flex-col
-              items-center
-              py-2
-              bg-white
-              overflow-hidden
-              shadow-sm
-              sm:rounded-lg
-            "
-          >
+          <div class="w-full">
             <ALink
               :href="route('dashboard')"
               :active="route().current('dashboard')"
@@ -101,17 +91,7 @@
               Produk
             </ALink>
           </div>
-          <div
-            class="
-              flex flex-col
-              items-center
-              py-2
-              bg-white
-              overflow-hidden
-              shadow-sm
-              sm:rounded-lg
-            "
-          >
+          <div class="w-full">
             <ALink
               :href="route('dashboard.gallery')"
               :active="route().current('dashboard.gallery')"
@@ -119,22 +99,20 @@
               Galeri
             </ALink>
           </div>
-          <div
-            class="
-              flex flex-col
-              items-center
-              py-2
-              bg-white
-              overflow-hidden
-              shadow-sm
-              sm:rounded-lg
-            "
-          >
+          <div class="w-full">
             <ALink
               :href="route('dashboard.category')"
               :active="route().current('dashboard.category')"
             >
               Kategori
+            </ALink>
+          </div>
+          <div class="w-full">
+            <ALink
+              :href="route('dashboard.setting')"
+              :active="route().current('dashboard.setting')"
+            >
+              Setting
             </ALink>
           </div>
         </div>
