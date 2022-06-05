@@ -19,7 +19,7 @@ class SettingController extends Controller
     public function show(Setting $setting)
     {
         return Inertia::render('Dashboard/Setting/Show', [
-            "title" => "Dashboard - Setting",
+            "title" => "Setting",
             "settings" => Setting::first()
 
         ]);
@@ -34,7 +34,7 @@ class SettingController extends Controller
     public function edit(Setting $setting)
     {
         return Inertia::render('Dashboard/Setting/Edit', [
-            "title" => "Dashboard - Edit Setting",
+            "title" => "Edit Setting",
             "settings" => Setting::first()
         ]);
     }
@@ -59,8 +59,7 @@ class SettingController extends Controller
             if ($setting->app_logo) {
                 Storage::disk('public')->delete($setting->app_logo);
             }
-            $ext = str_replace(' ', '-', $request->get('app_name'));
-            $filename = strtolower($ext) . '.' . $request->file('app_logo')->getClientOriginalExtension();
+            $filename = 'logo.png';
             $data['app_logo'] = $request->file('app_logo')->storeAs(
                 'logo',
                 $filename,

@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return Inertia::render('Category/Edit', [
-            "title" => "Dashboard - Kategori | Edit",
+            "title" => "Kategori | Edit",
             "category" => $category,
             "categories" => Category::all()
         ]);

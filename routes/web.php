@@ -36,7 +36,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard/Product', [
-            "title" => "Dashboard - Produk",
+            "title" => "Produk",
             "categories" => Category::all(),
             "products" => Product::with('category')->latest()->paginate(10)
         ]);
@@ -44,14 +44,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/galleries', function () {
         return Inertia::render('Dashboard/Gallery', [
-            "title" => "Dashboard - Galeri",
+            "title" => "Galeri",
             "galeries" => Galery::latest()->paginate(10)
         ]);
     })->name('dashboard.gallery');
 
     Route::get('/dashboard/category', function () {
         return Inertia::render('Dashboard/Category', [
-            "title" => "Dashboard - Kategori",
+            "title" => "Kategori",
             "categories" => Category::all()
         ]);
     })->name('dashboard.category');
@@ -85,7 +85,7 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('categorie
 Route::post('category/store', [CategoryController::class, 'store'])
     ->middleware('auth')->name('category.store');
 
-Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])
+Route::get('dashboard/category/{category}/edit', [CategoryController::class, 'edit'])
     ->name('category.edit');
 
 Route::patch('category/{category}', [CategoryController::class, 'update'])

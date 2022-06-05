@@ -2,6 +2,7 @@
   import Dashboard from "@/Layouts/Dashboard.vue";
   import { Inertia } from "@inertiajs/inertia";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import DHead from "@/Layouts/DashboardHead.vue";
   import { reactive } from "vue";
 
   defineProps({
@@ -22,9 +23,7 @@
 </script>
 
 <template>
-  <Head>
-    <title>{{ $page.props.title }}</title>
-  </Head>
+  <DHead :title="$page.props.title" />
   <Dashboard>
     <template #halaman>
       {{ $page.props.title }}

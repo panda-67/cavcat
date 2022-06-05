@@ -2,6 +2,7 @@
   import Dashboard from "@/Layouts/Dashboard.vue";
   import Pagination from "@/Components/Pagination.vue";
   import RemoveButton from "@/Components/RemoveButton.vue";
+  import DHead from "@/Layouts/DashboardHead.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
 
   defineProps({
@@ -19,9 +20,7 @@
   };
 </script>
 <template>
-  <Head>
-    <title>{{ $page.props.title }}</title>
-  </Head>
+  <DHead :title="$page.props.title" />
   <Dashboard>
     <template #halaman>
       {{ $page.props.title }}

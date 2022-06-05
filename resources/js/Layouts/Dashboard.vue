@@ -1,13 +1,9 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
   import ALink from "@/Components/AdminLink.vue";
-  import { Link } from "@inertiajs/inertia-vue3";
-
-  defineProps({
-    title: Object,
-  });
+  import { Link, Head } from "@inertiajs/inertia-vue3";
 </script>
-
+ 
 <template>
   <BreezeAuthenticatedLayout>
     <template #header>

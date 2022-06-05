@@ -19,10 +19,6 @@
   };
 </script>
 <template>
-  <Head>
-    <title>Edit - {{ Inertia.page.props.category.name }}</title>
-  </Head>
-
   <CategoriesLayout>
     <template #title>
       {{ Inertia.page.props.category.name }}

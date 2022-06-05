@@ -1,8 +1,6 @@
 <script setup>
-  import Dashboard from "@/Layouts/Dashboard.vue";
+  import DHead from "@/Layouts/DashboardHead.vue";
   import Setting from "@/Pages/Dashboard/Setting/Show.vue";
-  import Pagination from "@/Components/Pagination.vue";
-  import RemoveButton from "@/Components/RemoveButton.vue";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
   import { Inertia } from "@inertiajs/inertia";
 
@@ -10,7 +8,7 @@
     app_name: Inertia.page.props.settings.app_name,
     app_logo: Inertia.page.props.settings.app_logo,
     app_description: Inertia.page.props.settings.app_description,
-    _method:"PATCH"
+    _method: "PATCH",
   });
 
   let submit = () => {
@@ -24,9 +22,7 @@
   });
 </script>
 <template>
-  <Head>
-    <title>{{ $page.props.title }}</title>
-  </Head>
+  <DHead :title="$page.props.title" />  
   <Setting>
     <template #tombol>
       <Link
@@ -57,7 +53,11 @@
           </div>
           <div class="rounded-lg bg-white py-5 px-4">
             <h2 class="font-semibold text-lg">Logo</h2>
-            <img :src="/storage/ + Inertia.page.props.settings.app_logo" alt="" class="mask mask-circle max-h-72" />
+            <img
+              :src="/storage/ + Inertia.page.props.settings.app_logo"
+              alt=""
+              class="mask mask-circle max-h-72"
+            />
             <input
               type="file"
               @input="form.app_logo = $event.target.files[0]"
