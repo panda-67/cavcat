@@ -109,8 +109,8 @@
           </div>
           <div class="w-full">
             <ALink
-              :href="route('dashboard.setting')"
-              :active="route().current('dashboard.setting')"
+              :href="route('setting')"
+              :active="$page.url.startsWith('/dashboard/setting')"
             >
               Setting
             </ALink>

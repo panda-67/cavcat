@@ -27,7 +27,9 @@
 </script>
 
 <template>
-  <Head title="Dashboard - Produk" />
+  <Head>
+    <title>{{ $page.props.title }}</title>
+  </Head>
   <Dashboard>
     <template #halaman>
       {{ $page.props.title }}

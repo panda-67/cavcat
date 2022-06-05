@@ -10,26 +10,11 @@
   });
 
   let submit = () => {
-    Inertia.post(route("galeries.store"), form, {
+    Inertia.post(route("galleries.store"), form, {
       forceFormData: true,
     });
   };
-
-  defineProps({
-    categories: Object,
-  });
 </script>
-<script>
-  export default {
-    methods: {
-      previewImage(e) {
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
-      },
-    },
-  };
-</script>
-
 
 <template>
   <Head>
@@ -66,10 +51,10 @@
                 </div>
 
                 <label for="display">Gambar</label>
+                <img :src="form.image" alt="">
                 <input
                   type="file"
                   @input="form.image = $event.target.files[0]"
-                  @change="previewImage"
                   name="image"
                   id="image"
                   class="input input-ghost"
@@ -96,7 +81,7 @@
                     Simpan
                   </button>
                   <Link
-                    :href="route('dashboard')"
+                    :href="route('dashboard.gallery')"
                     as="button"
                     type="button"
                     class="btn btn-sm btn-primary"

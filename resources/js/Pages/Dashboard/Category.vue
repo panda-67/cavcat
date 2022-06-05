@@ -22,10 +22,12 @@
 </script>
 
 <template>
-  <Head title="Dashboard - Kategori" />
+  <Head>
+    <title>{{ $page.props.title }}</title>
+  </Head>
   <Dashboard>
     <template #halaman>
-      {{ Inertia.page.props.title }}
+      {{ $page.props.title }}
 
       <span v-if="Inertia.page.component == 'Dashboard/Category'">
         <label
@@ -76,6 +78,7 @@
       </span>
       <span v-else>
         <slot name="title" />
+        <slot name="tombol" />
       </span>
     </template>
 

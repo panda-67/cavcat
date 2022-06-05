@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GaleryController;
+use App\Http\Controllers\SettingController;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Galery;
@@ -40,29 +41,32 @@ Route::middleware('auth')->group(function () {
             "products" => Product::with('category')->latest()->paginate(10)
         ]);
     })->middleware('verified')->name('dashboard');
-    Route::get('/dashboard/gallery', function () {
+
+    Route::get('/dashboard/galleries', function () {
         return Inertia::render('Dashboard/Gallery', [
             "title" => "Dashboard - Galeri",
             "galeries" => Galery::latest()->paginate(10)
         ]);
     })->name('dashboard.gallery');
+
     Route::get('/dashboard/category', function () {
         return Inertia::render('Dashboard/Category', [
             "title" => "Dashboard - Kategori",
             "categories" => Category::all()
         ]);
     })->name('dashboard.category');
-    Route::get('/dashboard/setting', function () {
-        return Inertia::render('Dashboard/Setting', [
-            "title" => "Dashboard - Setting",
 
-        ]);
-    })->name('dashboard.setting');
+    Route::get('/dashboard/setting', [SettingController::class, 'show'])
+        ->name('setting');
+    Route::get('/dashboard/setting/{settings}/edit', [SettingController::class, 'edit'])
+        ->name('setting.edit');
+    Route::patch('dashboard/setting/{settings}', [SettingController::class, 'update'])
+        ->name('setting.update');
 });
 
 require __DIR__ . '/auth.php';
 
-Route::resource('products', ProductController::class)
+Route::resource('dashboard/products', ProductController::class)
     ->except(['index', 'show'])
     ->middleware(['auth']);
 
@@ -87,8 +91,8 @@ Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])
 Route::patch('category/{category}', [CategoryController::class, 'update'])
     ->middleware('auth')->name('category.update');
 
-Route::get('/galeries', [GaleryController::class, 'index'])->name('galery');
+Route::get('/galleries', [GaleryController::class, 'index'])->name('gallery');
 
-Route::resource('/galeries', GaleryController::class)->except([
+Route::resource('dashboard/galleries', GaleryController::class)->except([
     'index'
 ])->middleware(['auth']);

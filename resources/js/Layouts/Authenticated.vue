@@ -66,13 +66,13 @@
                 </BreezeNavLink>
                 <BreezeNavLink
                   :href="route('produk')"
-                  :active="route().current('produk')"
+                  :active="$page.url.startsWith('/products')"
                 >
                   Produk
                 </BreezeNavLink>
                 <BreezeNavLink
-                  :href="route('galery')"
-                  :active="route().current('galery')"
+                  :href="route('gallery')"
+                  :active="route().current('gallery')"
                 >
                   Galeri
                 </BreezeNavLink>
@@ -214,13 +214,13 @@
             <BreezeResponsiveNavLink
               v-if="$page.props.auth.user"
               :href="route('dashboard')"
-              :active="route().current('dashboard')"
+              :active="$page.url.startsWith('/dashboard')"
             >
               Dashboard
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink
               :href="route('produk')"
-              :active="route().current('produk')"
+              :active="$page.url.startsWith('/products')"
             >
               Produk
             </BreezeResponsiveNavLink>
@@ -231,8 +231,8 @@
               Kategori
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink
-              :href="route('galery')"
-              :active="route().current('galery')"
+              :href="route('gallery')"
+              :active="route().current('gallery')"
             >
               Galeri
             </BreezeResponsiveNavLink>

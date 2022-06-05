@@ -153,6 +153,9 @@ class ProductController extends Controller
         ]);
 
         if ($request->file('display')) {
+            if ($product->display) {
+                Storage::disk('public')->delete($product->display);
+            }
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
@@ -187,6 +190,6 @@ class ProductController extends Controller
         Product::destroy($product->id);
 
         return redirect()->route('dashboard')
-            ->withSuccess(__('Produk berhasil dihapus.'));
+            ->with('message', 'Produk berhasil dihapus.');
     }
 }

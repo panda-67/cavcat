@@ -19,12 +19,14 @@
   };
 </script>
 <template>
-  <Head title="Dashboard - Produk" />
+  <Head>
+    <title>{{ $page.props.title }}</title>
+  </Head>
   <Dashboard>
     <template #halaman>
       {{ $page.props.title }}
       <Link
-        :href="route('galeries.create')"
+        :href="route('galleries.create')"
         as="button"
         type="button"
         class="btn btn-xs md:btn-sm btn-ghost capitalize"
@@ -44,10 +46,10 @@
           :alt="galery.title"
           class="rounded-lg object-cover"
         />
-        <div class="absolute transform translate-y-24 translate-x-2">
+        <div class="absolute transform translate-y-16 translate-x-2">
           <div class="flex justify-start gap-1 items-center">
             <Link
-              :href="route('galeries.edit', galery)"
+              :href="route('galleries.edit', galery)"
               as="button"
               type="button"
             >
@@ -73,10 +75,9 @@
               </svg>
             </Link>
             <Link
-              :href="route('galeries.destroy', galery)"
+              :href="route('galleries.destroy', galery)"
               method="delete"
-              as="button"
-              type="button"
+              
               preserve-scroll
             >
               <RemoveButton class="hover:bg-gray-500 border-none text-white" />

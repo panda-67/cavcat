@@ -29,7 +29,7 @@
       <Link :href="route('categories')">
         <div class="hover:text-blue-500">Kategori</div>
       </Link>
-      <Link :href="route('galery')">
+      <Link :href="route('gallery')">
         <div class="hover:text-blue-500">Galeri</div>
       </Link>
     </div>

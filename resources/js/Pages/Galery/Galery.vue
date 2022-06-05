@@ -70,7 +70,7 @@
                 class="flex justify-end gap-1 items-center text-gray-500"
               >
                 <Link
-                  :href="route('galeries.edit', galery)"
+                  :href="route('galleries.edit', galery)"
                   as="button"
                   type="button"
                 >
@@ -95,7 +95,7 @@
                   </svg>
                 </Link>
                 <Link
-                  :href="route('galeries.destroy', galery)"
+                  :href="route('galleries.destroy', galery)"
                   method="delete"
                   as="button"
                   type="button"

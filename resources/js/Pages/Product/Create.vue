@@ -3,7 +3,6 @@
   import { Inertia } from "@inertiajs/inertia";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
   import { reactive } from "vue";
-  import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
   const form = useForm({
     title: null,
@@ -98,24 +97,17 @@
                   {{ $page.props.errors.merk }}
                 </div>
 
-                <label for="description">Deskripsi</label>
-                <!-- <div id="app">
-                  <ckeditor
-                    :editor="editor"
-                    v-model="editorData"
-                    name="description"
-                    id="description"
-                    class="input input-accent"
-                    :config="editorConfig"
-                  ></ckeditor>
-                </div> -->
-                <input
+                <label for="description">Deskripsi</label>               
+                <textarea
+                  id="description"
+                  cols="30"
+                  rows="5"
                   v-model="form.description"
                   type="text"
                   name="description"
-                  id="description"
-                  class="input input-accent"
-                />
+                  class="textarea textarea-accent"
+                ></textarea>
+
                 <div
                   v-if="$page.props.errors.description"
                   class="text-sm text-red-700"
@@ -142,7 +134,6 @@
                 <input
                   type="file"
                   @input="form.display = $event.target.files[0]"
-                  @change="previewImage"
                   name="display"
                   id="display"
                   class="input input-ghost"
