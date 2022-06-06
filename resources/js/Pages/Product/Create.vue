@@ -4,7 +4,7 @@
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
   import { reactive } from "vue";
 
- const form = useForm({
+  const form = useForm({
     title: null,
     category_id: null,
     merk: null,
@@ -16,7 +16,7 @@
   let submit = () => {
     Inertia.post(route("products.store"), form, {
       forceFormData: true,
-      onFinish: () => form.reset(),
+      // onFinish: () => form.reset(),
       preserveScroll: true,
     });
   };
@@ -25,21 +25,10 @@
     categories: Object,
   });
 </script>
-<script>
-  export default {
-    methods: {
-      previewImage(e) {
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
-      },
-    },
-  };
-</script>
-
 
 <template>
   <Head>
-    <title>Tambah</title>
+    <title>Produk - Tambah</title>
   </Head>
 
   <BreezeAuthenticatedLayout>
@@ -108,14 +97,17 @@
                   {{ $page.props.errors.merk }}
                 </div>
 
-                <label for="description">Deskripsi</label>
-                <input
+                <label for="description">Deskripsi</label>               
+                <textarea
+                  id="description"
+                  cols="30"
+                  rows="5"
                   v-model="form.description"
                   type="text"
                   name="description"
-                  id="description"
-                  class="input input-accent"
-                />
+                  class="textarea textarea-accent"
+                ></textarea>
+
                 <div
                   v-if="$page.props.errors.description"
                   class="text-sm text-red-700"
@@ -129,7 +121,7 @@
                   type="text"
                   name="price"
                   id="price"
-                  class="input input-ghost"
+                  class="input input-accent"
                 />
                 <div
                   v-if="$page.props.errors.price"
@@ -142,7 +134,6 @@
                 <input
                   type="file"
                   @input="form.display = $event.target.files[0]"
-                  @change="previewImage"
                   name="display"
                   id="display"
                   class="input input-ghost"

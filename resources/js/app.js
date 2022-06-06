@@ -2,6 +2,7 @@ require('./bootstrap');
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { Inertia } from "@inertiajs/inertia";
 import { InertiaProgress } from '@inertiajs/progress';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
@@ -17,4 +18,15 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({
+    delay: 500,
+
+    color: '#ff0000',
+
+    // includeCSS: true,
+
+    showSpinner: true,
+});
+
+// ref: https://tobiasahlin.com/blog/move-from-jquery-to-vanilla-javascript/#document-ready
+

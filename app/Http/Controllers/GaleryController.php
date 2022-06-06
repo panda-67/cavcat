@@ -24,7 +24,7 @@ class GaleryController extends Controller
             "categories" => Category::all(),
             "galeries" => $galeries
         ]);
-     }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -58,14 +58,16 @@ class GaleryController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('image')->getClientOriginalExtension();
             $data['image'] = $request->file('image')->storeAs(
-                'galery', $filename, 'public'
+                'galery',
+                $filename,
+                'public'
             );
         }
         $data['title'] = Str::title($request->get('title'));
-        // return $data;
+        // return $request->file();
         Galery::create($data);
 
-        return redirect()->route('dashboard')
+        return redirect()->route('dashboard.gallery')
             ->with('message', 'Galeri berhasil ditambahkan.');
     }
 
@@ -86,11 +88,11 @@ class GaleryController extends Controller
      * @param  \App\Models\Galery  $galery
      * @return \Illuminate\Http\Response
      */
-    public function edit(Galery $galery)
+    public function edit(Galery $galery, $id)
     {
         return Inertia::render('Galery/Edit', [
             "title" => "Edit Galeri",
-            "galeries" => $galery
+            "galeries" => $galery->where('id', $id)->first()
         ]);
     }
 
@@ -101,11 +103,11 @@ class GaleryController extends Controller
      * @param  \App\Models\Galery  $galery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Galery $galery)
+    public function update(Request $request, Galery $galery, $id)
     {
         $data = $request->validate([
             'title' => 'required',
-            'image' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable',
         ], [], [
             'image' => 'gambar'
         ]);
@@ -117,14 +119,16 @@ class GaleryController extends Controller
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('image')->getClientOriginalExtension();
             $data['image'] = $request->file('image')->storeAs(
-                'galery', $filename, 'public'
+                'galery',
+                $filename,
+                'public'
             );
         }
         // return $data;
-        Galery::where('id', $galery->id)
+        Galery::where('id', $id)
             ->update($data);
 
-        return redirect()->route('dashboard')
+        return redirect()->route('dashboard.gallery')
             ->with('message', 'Galeri berhasil diubah.');
     }
 
@@ -134,15 +138,15 @@ class GaleryController extends Controller
      * @param  \App\Models\Galery  $galery
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Galery $galery)
+    public function destroy(Galery $galery, $id)
     {
         if ($galery->image) {
             Storage::disk('public')->delete($galery->image);
         }
 
-        Galery::destroy($galery->id);
+        Galery::destroy($id);
 
-        return redirect()->route('galery')
-            ->withSuccess(__('Galery berhasil dihapus.'));
+        return redirect()->route('dashboard.gallery')
+            ->with('message', 'Galeri berhasil dihapus.');
     }
 }

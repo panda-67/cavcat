@@ -1,16 +1,22 @@
 <script setup>
-import { ref } from "vue";
-import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
-import BreezeDropdown from "@/Components/Dropdown.vue";
-import BreezeDropdownLink from "@/Components/DropdownLink.vue";
-import BreezeNavLink from "@/Components/NavLink.vue";
-import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { Link } from "@inertiajs/inertia-vue3";
+  import { ref } from "vue";
+  import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
+  import BreezeDropdown from "@/Components/Dropdown.vue";
+  import BreezeDropdownLink from "@/Components/DropdownLink.vue";
+  import BreezeNavLink from "@/Components/NavLink.vue";
+  import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+  import { Link, Head } from "@inertiajs/inertia-vue3";
+  import { Inertia } from "@inertiajs/inertia";
 
-const showingNavigationDropdown = ref(false);
+  const showingNavigationDropdown = ref(false);
+
+  // defineProps({
+  //   title:String,
+  // })
 </script>
 
 <template>
+
   <div>
     <div class="min-h-screen bg-gray-100">
       <nav class="bg-white border-b border-gray-100">
@@ -21,7 +27,7 @@ const showingNavigationDropdown = ref(false);
               <!-- Logo -->
               <div class="shrink-0 flex items-center">
                 <Link :href="route('home')">
-                  <BreezeApplicationLogo class="block h-9 w-auto" />
+                  <BreezeApplicationLogo class="h-12" />
                 </Link>
               </div>
 
@@ -30,27 +36,27 @@ const showingNavigationDropdown = ref(false);
                 <BreezeNavLink
                   v-if="$page.props.auth.user"
                   :href="route('dashboard')"
-                  :active="route().current('dashboard')"
+                  :active="$page.url.startsWith('/dashboard')"
                 >
                   Dashboard
                 </BreezeNavLink>
                 <BreezeNavLink
                   :href="route('produk')"
-                  :active="route().current('produk')"
+                  :active="$page.url.startsWith('/products')"
                 >
                   Produk
+                </BreezeNavLink>
+                <BreezeNavLink
+                  :href="route('gallery')"
+                  :active="route().current('gallery')"
+                >
+                  Galeri
                 </BreezeNavLink>
                 <BreezeNavLink
                   :href="route('categories')"
                   :active="route().current('categories')"
                 >
                   Kategori
-                </BreezeNavLink>
-                <BreezeNavLink
-                  :href="route('galery')"
-                  :active="route().current('galery')"
-                >
-                  Galeri
                 </BreezeNavLink>
               </div>
             </div>
@@ -82,7 +88,7 @@ const showingNavigationDropdown = ref(false);
                           duration-150
                         "
                       >
-                        <div v-if="$page.props.auth.user">
+                        <div v-if="$page.props.auth.user" class="capitalize">
                           {{ $page.props.auth.user.name }}
                         </div>
                         <svg
@@ -184,13 +190,13 @@ const showingNavigationDropdown = ref(false);
             <BreezeResponsiveNavLink
               v-if="$page.props.auth.user"
               :href="route('dashboard')"
-              :active="route().current('dashboard')"
+              :active="$page.url.startsWith('/dashboard')"
             >
               Dashboard
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink
               :href="route('produk')"
-              :active="route().current('produk')"
+              :active="$page.url.startsWith('/products')"
             >
               Produk
             </BreezeResponsiveNavLink>
@@ -201,8 +207,8 @@ const showingNavigationDropdown = ref(false);
               Kategori
             </BreezeResponsiveNavLink>
             <BreezeResponsiveNavLink
-              :href="route('galery')"
-              :active="route().current('galery')"
+              :href="route('gallery')"
+              :active="route().current('gallery')"
             >
               Galeri
             </BreezeResponsiveNavLink>

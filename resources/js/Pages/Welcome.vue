@@ -1,5 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import Footer from "@/Components/Footer.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
 
   defineProps({
@@ -37,26 +38,30 @@
           :src="showImage() + galeries[0].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
         <img
           v-else
-          src="https://api.lorem.space/image/car?w=800&h=600&hash=500B67FB"
+          src="https://api.lorem.space/image/car?w=300&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 
@@ -83,26 +88,30 @@
           :src="showImage() + galeries[1].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
         <img
           v-else
-          src="https://api.lorem.space/image/hat?w=800&h=600&hash=500B67FB"
+          src="https://api.lorem.space/image/car?w=800&h=200&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
         <div
@@ -118,8 +127,8 @@
             top-1/2
           "
         >
-          <a href="#slide1" class="btn btn-circle">❮</a>
-          <a href="#slide3" class="btn btn-circle">❯</a>
+          <a href="#slide1" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide3" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
       <div id="slide3" class="carousel-item relative w-full">
@@ -128,12 +137,14 @@
           :src="showImage() + galeries[2].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
@@ -142,12 +153,14 @@
           src="https://api.lorem.space/image/house?w=800&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 
@@ -164,8 +177,8 @@
             top-1/2
           "
         >
-          <a href="#slide2" class="btn btn-circle">❮</a>
-          <a href="#slide4" class="btn btn-circle">❯</a>
+          <a href="#slide2" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide4" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
       <div id="slide4" class="carousel-item relative w-full">
@@ -174,12 +187,14 @@
           :src="showImage() + galeries[3].image"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
           alt=""
         />
@@ -188,12 +203,14 @@
           src="https://api.lorem.space/image/car?w=800&h=600&hash=500B67FB"
           class="
             w-full
+            h-96
             md:h-140
             mx-6
-            my-4
+            my-auto
             md:mt-10 md:mx-10
             rounded-lg
             md:rounded-xl
+            object-cover
           "
         />
 
@@ -210,28 +227,18 @@
             top-1/2
           "
         >
-          <a href="#slide3" class="btn btn-circle">❮</a>
-          <a href="#slide1" class="btn btn-circle">❯</a>
+          <a href="#slide3" class="btn btn-sm btn-circle">❮</a>
+          <a href="#slide1" class="btn btn-sm btn-circle">❯</a>
         </div>
       </div>
     </div>
 
     <!-- Latest Products -->
-    <div class="">
-      <div class="col-span-4 mx-2 my-4 sm:px-4">
-        <div
-          class="
-            bg-base
-            grid
-            gap-2
-            md:gap-4
-            grid-cols-2
-            md:grid-cols-2
-            lg:grid-cols-4
-          "
-        >
+    <div class="mx-auto">
+      <div class="col-span-4 mx-3 my-4 md:mx-4">
+        <div class="bg-base grid md:gap-2 grid-cols-2 lg:grid-cols-4">
           <div v-for="stock in products" :key="stock.id">
-            <div class="py-3 font-roboto w-full px-6 flex flex-col">
+            <div class="py-3 font-roboto w-full px-2 md:px-4 flex flex-col">
               <div>
                 <Link :href="route('products.show', stock.slug)">
                   <div v-if="stock.display">
@@ -288,12 +295,16 @@
                   <div class="text-xs sm:text-sm font-thin">
                     <h2>
                       Dalam
-                      <strong
-                        ><a
-                          href="{{ route('category', stock.category.slug) }}"
-                          >{{ stock.category.name }}</a
-                        ></strong
-                      >
+                      <strong>
+                        <Link
+                          :href="route('category', stock.category.slug)"
+                          as="button"
+                          type="button"
+                          class="text-left"
+                        >
+                          {{ stock.category.name }}
+                        </Link>
+                      </strong>
                     </h2>
                   </div>
                 </div>
@@ -310,8 +321,8 @@
                   <div
                     class="
                       py-2
-                      text-gray-600 text-lg
-                      sm:text-base
+                      text-gray-600 text-sm
+                      md:text-lg
                       font-mono font-bold
                     "
                   >
@@ -330,7 +341,8 @@
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="
-                        h-7
+                        h-5
+                        md:h-7
                         hover:cursor-pointer
                         rounded-md
                         hover:bg-green-500 hover:text-gray-100
@@ -363,5 +375,6 @@
         </div>
       </div>
     </div>
+    <Footer />
   </BreezeAuthenticatedLayout>
 </template>

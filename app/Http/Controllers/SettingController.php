@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+
+class SettingController extends Controller
+{
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Setting  $setting
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Setting $setting)
+    {
+        return Inertia::render('Dashboard/Setting/Show', [
+            "title" => "Setting",
+            "settings" => Setting::first()
+
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Setting  $setting
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Setting $setting)
+    {
+        return Inertia::render('Dashboard/Setting/Edit', [
+            "title" => "Edit Setting",
+            "settings" => Setting::first()
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Setting  $setting
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Setting $setting, $id)
+    {
+
+        $data = $request->validate([
+            'app_name' => 'required',
+            'app_logo' => 'nullable',
+            'app_description' => 'required'
+        ]);
+
+        if ($request->file('app_logo')) {
+            if ($setting->app_logo) {
+                Storage::disk('public')->delete($setting->app_logo);
+            }
+            $filename = 'logo.png';
+            $data['app_logo'] = $request->file('app_logo')->storeAs(
+                'logo',
+                $filename,
+                'public'
+            );
+        }
+        $data['app_name'] = Str::title($request->get('app_name'));
+        // return $data;
+        Setting::where('id', $id)->update($data);
+
+        return redirect()->route('setting')
+            ->with('message', 'Setting berhasil diubah.');
+    }
+}

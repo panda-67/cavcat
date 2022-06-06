@@ -31,7 +31,7 @@ class ProductController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        return Inertia::render('Product/Produk', [
+        return Inertia::render('Product/Index', [
             "title" => "Products",
             "categoryName" => $namecategory,
             "categories" => Category::latest()->get(),
@@ -108,6 +108,7 @@ class ProductController extends Controller
         return Inertia::render('Product/Show', [
             "title" => "Detail",
             "stock" => $stock,
+            "categories" => Category::all(),
         ]);
     }
 
@@ -152,6 +153,9 @@ class ProductController extends Controller
         ]);
 
         if ($request->file('display')) {
+            if ($product->display) {
+                Storage::disk('public')->delete($product->display);
+            }
             $ext = str_replace(' ', '-', $request->get('title'));
             $filename = strtolower($ext) . '.' . $request->file('display')->getClientOriginalExtension();
             $data['display'] = $request->file('display')->storeAs(
@@ -186,6 +190,6 @@ class ProductController extends Controller
         Product::destroy($product->id);
 
         return redirect()->route('dashboard')
-            ->withSuccess(__('Produk berhasil dihapus.'));
+            ->with('message', 'Produk berhasil dihapus.');
     }
 }

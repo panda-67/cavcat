@@ -36,7 +36,7 @@
 
 <template>
   <Head>
-    <title>{{ Inertia.page.props.product.title }}</title>
+    <title>Edit - {{ Inertia.page.props.product.title }}</title>
   </Head>
 
   <BreezeAuthenticatedLayout>
@@ -168,7 +168,7 @@
                 <div class="space-x-2">
                   <button
                     type="submit"
-                    class="btn btn-sm btn-accent text-white w-max"
+                    class="btn btn-sm btn-accent capitalize text-white w-max"
                   >
                     Simpan
                   </button>
