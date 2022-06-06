@@ -35,7 +35,7 @@
       </div>
       <div class="rounded-lg bg-white py-5 px-4">
         <h2 class="font-semibold text-lg">Logo</h2>
-        <img :src="/storage/ + Inertia.page.props.settings.app_logo" alt="" class="mask mask-circle max-h-60" />
+        <img :src="/storage/ + Inertia.page.props.settings.app_logo" alt="" class="max-h-60" />
       </div>
       <div class="rounded-lg bg-white py-5 px-4">
         <h2 class="font-semibold text-lg">Deskripsi</h2>

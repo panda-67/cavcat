@@ -23671,7 +23671,7 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: "/storage/logo/logo.png",
   alt: "",
-  "class": "mask mask-circle"
+  "class": ""
 }, null, -1
 /* HOISTED */
 );
@@ -26400,7 +26400,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         src: /storage/ + $setup.Inertia.page.props.settings.app_logo,
         alt: "",
-        "class": "mask mask-circle max-h-60"
+        "class": "max-h-60"
       }, null, 8
       /* PROPS */
       , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.Inertia.page.props.settings.app_description), 1
